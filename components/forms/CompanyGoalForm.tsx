@@ -62,7 +62,7 @@ const computeMargin = (profit: string, revenue: string): string => {
 };
 
 const NUM_COLS: { key: keyof KpiNumRow; label: string; sub: string; numeric?: boolean }[] = [
-  { key: 'prev', label: '前期実績（円）', sub: '—', numeric: true },
+  { key: 'prev', label: '前期実績（円）', sub: '2025.10〜2026.3', numeric: true },
   { key: 'target', label: '今期目標（円）', sub: '2026.4〜9', numeric: true },
   { key: 'actual', label: '今期実績（円）', sub: '2026.4〜9', numeric: true },
 ];
@@ -102,31 +102,13 @@ function KpiNumTable({
               <td style={{ fontWeight: 500, whiteSpace: 'nowrap', fontSize: '.8125rem' }}>{row.label}</td>
               {NUM_COLS.map(c => (
                 <td key={c.key}>
-                  {c.key === 'prev' ? (
-                    <div
-                      className="input"
-                      style={{
-                        padding: '6px 8px',
-                        fontSize: '.8125rem',
-                        textAlign: 'center',
-                        color: 'var(--color-text-light)',
-                        background: 'var(--glass-tinted)',
-                        cursor: 'default',
-                        userSelect: 'none',
-                      }}
-                      title="上期版では前期実績の入力欄はありません"
-                    >
-                      —
-                    </div>
-                  ) : (
-                    <TI
-                      value={row.data[c.key]}
-                      onChange={v => onUpdate(i, c.key, v)}
-                      placeholder={row.readOnlyNumeric ? '自動計算' : c.numeric ? '0' : '自由記入'}
-                      numeric={c.numeric}
-                      readOnly={row.readOnlyNumeric}
-                    />
-                  )}
+                  <TI
+                    value={row.data[c.key]}
+                    onChange={v => onUpdate(i, c.key, v)}
+                    placeholder={row.readOnlyNumeric ? '自動計算' : c.numeric ? '0' : '自由記入'}
+                    numeric={c.numeric}
+                    readOnly={row.readOnlyNumeric}
+                  />
                 </td>
               ))}
               <td style={{ textAlign: 'center', fontWeight: 600, fontSize: '.875rem', color: 'var(--color-text-muted)', whiteSpace: 'nowrap' }}>
