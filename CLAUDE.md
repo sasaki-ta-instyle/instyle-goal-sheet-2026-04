@@ -2,7 +2,7 @@
 
 # instyle-goal-sheet-2026-04
 
-instyle.group の上期（2026.4〜9）用ゴールシート。下期版（`instyle-goal-sheet-2026-10`）の sibling として独立運用する。前期（2025下期）の実績データは持たないため、「前期実績」列は `—` 固定で入力不可。
+instyle.group の上期（2026.4〜9）用ゴールシート。下期版（`instyle-goal-sheet-2026-10`）の sibling として独立運用する。前期は 2025下期（2025.10〜2026.3）。
 
 ## デプロイ設定（Claude Code 用）
 

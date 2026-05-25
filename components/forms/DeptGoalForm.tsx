@@ -38,7 +38,7 @@ function TI({ value, onChange, placeholder, autoNumber, compact }: { value: stri
 }
 
 const KPI_COLS: { key: 'prev' | 'target' | 'actual'; label: string; sub: string; autoNumber?: boolean }[] = [
-  { key: 'prev', label: '前期実績', sub: '—', autoNumber: true },
+  { key: 'prev', label: '前期実績', sub: '2025.10〜2026.3', autoNumber: true },
   { key: 'target', label: '今期目標', sub: '2026.4〜9', autoNumber: true },
   { key: 'actual', label: '今期実績', sub: '2026.4〜9', autoNumber: true },
 ];
@@ -196,31 +196,13 @@ export default function DeptGoalForm({ data, onChange, companyStrategicFocus }: 
                   </td>
                   {KPI_COLS.map(c => (
                     <td key={c.key}>
-                      {c.key === 'prev' ? (
-                        <div
-                          className="input"
-                          style={{
-                            padding: '6px 8px',
-                            fontSize: '.75rem',
-                            textAlign: 'center',
-                            color: 'var(--color-text-light)',
-                            background: 'var(--glass-tinted)',
-                            cursor: 'default',
-                            userSelect: 'none',
-                          }}
-                          title="上期版では前期実績の入力欄はありません"
-                        >
-                          —
-                        </div>
-                      ) : (
-                        <TI
-                          value={data[item.key][c.key]}
-                          onChange={v => updateKpi(item.key, c.key, v)}
-                          placeholder="数字または自由記入"
-                          autoNumber={c.autoNumber}
-                          compact
-                        />
-                      )}
+                      <TI
+                        value={data[item.key][c.key]}
+                        onChange={v => updateKpi(item.key, c.key, v)}
+                        placeholder="数字または自由記入"
+                        autoNumber={c.autoNumber}
+                        compact
+                      />
                     </td>
                   ))}
                   <td style={{ textAlign: 'center', fontWeight: 600, fontSize: '.875rem', color: 'var(--color-text-muted)', whiteSpace: 'nowrap' }}>
