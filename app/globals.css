@@ -1,0 +1,315 @@
+@import "tailwindcss";
+
+:root {
+  --color-bg:          #EDE9E0;
+  --color-text:        #35362D;
+  --color-text-muted:  #82837A;
+  --color-text-light:  #C4C1B0;
+  --color-text-inv:    #F3F1EE;
+  --color-success:     #7BB785;
+  --color-warning:     #D4772C;
+  --color-error:       #DC2626;
+  --color-info:        #38537B;
+
+  --glass-light:       rgba(255,255,255,.55);
+  --glass-warm:        rgba(243,241,238,.58);
+  --glass-dark:        rgba(32,33,26,.78);
+  --glass-tinted:      rgba(196,193,176,.42);
+  --glass-border-l:    rgba(255,255,255,.80);
+  --glass-border-w:    rgba(255,255,255,.62);
+  --glass-border-d:    rgba(255,255,255,.13);
+  --glass-blur-sm:     saturate(180%) blur(16px);
+  --glass-blur:        saturate(200%) blur(24px);
+  --glass-blur-lg:     saturate(220%) blur(40px);
+  --glass-shadow-sm:   0 2px 12px rgba(53,54,45,.09),0 1px 4px rgba(53,54,45,.07);
+  --glass-shadow:      0 8px 32px rgba(53,54,45,.11),0 2px 8px rgba(53,54,45,.08);
+  --glass-shadow-lg:   0 20px 64px rgba(53,54,45,.16),0 4px 16px rgba(53,54,45,.10);
+  --glass-hl:          inset 0 1px 0 rgba(255,255,255,.90),inset 0 -1px 0 rgba(0,0,0,.055);
+  --glass-hl-d:        inset 0 1px 0 rgba(255,255,255,.18),inset 0 -1px 0 rgba(0,0,0,.22);
+
+  --r-sm:   10px;
+  --r:      16px;
+  --r-lg:   24px;
+  --r-xl:   32px;
+  --r-pill: 999px;
+
+  /* CDN: gen-interface-jp@0.5.0/all.css — 8 weights (100–800) / loaded in app/layout.tsx */
+  --font-sans:    'Gen Interface JP', sans-serif;
+  --font-display: 'Gen Interface JP Display', 'Gen Interface JP', sans-serif;
+  --ease-out: 250ms cubic-bezier(.4,0,.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { background: var(--color-bg); scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ── Ambient scene background ── */
+.scene-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: var(--color-bg);
+  overflow: hidden;
+  pointer-events: none;
+}
+.scene-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 72% 65% at  8%  6%, rgba(196,193,176,.58) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 55% at 94% 10%, rgba(230,226,215,.65) 0%, transparent 52%),
+    radial-gradient(ellipse 52% 68% at 78% 88%, rgba(196,193,176,.42) 0%, transparent 55%),
+    radial-gradient(ellipse 66% 46% at 18% 92%, rgba(230,226,215,.52) 0%, transparent 55%),
+    radial-gradient(ellipse 42% 42% at 50% 48%, rgba(243,241,238,.32) 0%, transparent 52%);
+}
+
+/* ── Glass panel ── */
+.glass-panel {
+  background: rgba(243,241,238,.50);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border-w);
+  box-shadow: var(--glass-hl), var(--glass-shadow);
+  border-radius: var(--r-xl);
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+}
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.85) 50%, transparent);
+  pointer-events: none;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 22px;
+  border-radius: var(--r-pill);
+  font-size: .875rem;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  letter-spacing: .01em;
+  cursor: pointer;
+  border: none;
+  transition: all var(--ease-out);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+.btn-primary {
+  background: rgba(32,33,26,.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--color-text-inv);
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: var(--glass-hl-d), 0 4px 16px rgba(53,54,45,.28);
+}
+.btn-primary:hover:not(:disabled) {
+  background: rgba(53,54,45,.90);
+  transform: translateY(-1px);
+  box-shadow: var(--glass-hl-d), 0 8px 24px rgba(53,54,45,.34);
+}
+.btn-secondary {
+  background: rgba(243,241,238,.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--color-text);
+  border: 1px solid rgba(255,255,255,.78);
+  box-shadow: var(--glass-hl), var(--glass-shadow-sm);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: rgba(255,255,255,.82);
+  transform: translateY(-1px);
+}
+.btn-lg { padding: 14px 32px; font-size: 1rem; }
+.btn-sm { padding: 7px 16px; font-size: .8125rem; }
+
+/* ── Form inputs ── */
+.form-label {
+  display: block;
+  font-size: .8125rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: var(--color-text);
+}
+.input {
+  width: 100%;
+  padding: 10px 16px;
+  background: rgba(255,255,255,.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.78);
+  border-radius: var(--r-sm);
+  font-size: .875rem;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  transition: all 150ms ease;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85), 0 2px 8px rgba(53,54,45,.06);
+}
+.input:focus {
+  outline: none;
+  background: rgba(255,255,255,.78);
+  border-color: rgba(255,255,255,.92);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 0 0 3px rgba(196,193,176,.38);
+}
+.input::placeholder { color: var(--color-text-light); }
+select.input { cursor: pointer; }
+textarea.input {
+  /* field-sizing で content に合わせて自動拡張。手動 resize は無効化して、
+     入力中もシェア時も同じ挙動（書いた分だけ枠が伸びる）に統一する。
+     min-height はインラインで上書きされる箇所もあるが、ここの 80px が下限のデフォルト。
+     field-sizing は Chrome 123+ / Safari 17.4+ / Firefox 129+。 */
+  field-sizing: content;
+  resize: none;
+  min-height: 80px;
+  line-height: 1.6;
+}
+
+/* ── Section title ── */
+.section-title {
+  font-size: .6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .10em;
+  color: var(--color-text-muted);
+  margin-bottom: 20px;
+}
+
+/* ── Table ── */
+.table-wrap {
+  border-radius: var(--r);
+  overflow: hidden;
+  background: rgba(243,241,238,.50);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(255,255,255,.68);
+  box-shadow: var(--glass-hl), var(--glass-shadow);
+}
+.data-table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+.data-table th {
+  background: rgba(230,226,215,.60);
+  color: var(--color-text-muted);
+  font-size: .6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  padding: 10px 14px;
+  text-align: left;
+}
+.data-table td {
+  padding: 8px 12px;
+  color: var(--color-text);
+  background: transparent;
+  vertical-align: middle;
+}
+.data-table tr:nth-child(even) td { background: rgba(230,226,215,.28); }
+.data-table tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,.42); }
+.data-table .input { padding: 6px 10px; font-size: .8125rem; }
+
+/* ── Divider ── */
+.divider { height: 0; margin: 32px 0; }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .table-wrap { overflow-x: auto; border-radius: var(--r-sm); }
+  .glass-panel { padding: 20px; }
+
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .header-buttons { flex-wrap: wrap; }
+
+  .step-nav {
+    max-width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start !important;
+    padding: 0 16px;
+  }
+  .step-nav nav {
+    flex-shrink: 0;
+  }
+
+  .form-grid-2 { grid-template-columns: 1fr !important; }
+
+  .site-header { padding: 24px 20px 20px !important; }
+  .site-main { padding: 0 16px 60px !important; }
+}
+
+/* ── Commitment compare block (Step 6) ── */
+@media (max-width: 640px) {
+  .commitment-compare {
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+}
+
+/* ── Share view (read-only) ── */
+/* fieldset[disabled] で全 form control を非操作化しつつ、見た目は変えずに残す。
+   特に BonusForm / PromotionForm はスコア選択を <button aria-pressed> で表現しているため、
+   button を display:none にしてはいけない。 */
+.share-view fieldset[disabled] input,
+.share-view fieldset[disabled] textarea,
+.share-view fieldset[disabled] select,
+.share-view fieldset[disabled] button {
+  cursor: default;
+  opacity: 1;
+}
+/* text 系の input / textarea / select だけ閲覧用の色背景を当てる。
+   radio / checkbox はネイティブコントロールなので背景を上書きすると見た目が崩れる
+   （SL理論セクションが代表例）。除外する。 */
+.share-view fieldset[disabled] textarea,
+.share-view fieldset[disabled] select,
+.share-view fieldset[disabled] input:not([type="radio"]):not([type="checkbox"]) {
+  color: var(--color-text);
+  -webkit-text-fill-color: var(--color-text);
+  background: var(--glass-warm);
+}
+.share-view fieldset[disabled] input[type="radio"],
+.share-view fieldset[disabled] input[type="checkbox"] {
+  accent-color: var(--color-text);
+}
+
+/* 未入力箇所は編集画面と同じく薄い色で見せる。本文の黒色 (-webkit-text-fill-color)
+   が placeholder にも当たってしまい潰れていたのを、placeholder 専用で上書きする。 */
+.share-view fieldset[disabled] input::placeholder,
+.share-view fieldset[disabled] textarea::placeholder {
+  color: var(--color-text-light) !important;
+  -webkit-text-fill-color: var(--color-text-light) !important;
+  opacity: 1;
+}
+/* select の value="" 状態（未選択）も薄く見せる。値が入っているときは通常色。 */
+.share-view fieldset[disabled] select:has(option[value=""]:checked) {
+  color: var(--color-text-light);
+  -webkit-text-fill-color: var(--color-text-light);
+}
+
+/* シェア時は最小高さの縛りも外して、書いた分だけぴったり表示する。
+   共通の textarea.input が field-sizing: content を持っているので、ここでは
+   インラインで指定された min-height を打ち消すだけでよい。 */
+.share-view fieldset[disabled] textarea {
+  min-height: 0 !important;
+  height: auto !important;
+  overflow: visible !important;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
