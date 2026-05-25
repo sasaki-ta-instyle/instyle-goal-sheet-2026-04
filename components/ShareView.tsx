@@ -12,17 +12,29 @@ import { FormData } from '@/lib/types';
 
 const noop = () => {};
 
+const SECTIONS = [
+  { id: 'cover', label: 'カバー' },
+  { id: 'group', label: 'グループ目標' },
+  { id: 'company', label: '会社目標' },
+  { id: 'dept', label: '部署目標' },
+  { id: 'personal', label: '個人目標' },
+  { id: 'commitment', label: 'ギャランティ' },
+  { id: 'grade', label: 'グレード表' },
+  { id: 'promotion', label: '昇格・昇給' },
+  { id: 'bonus', label: 'ボーナス評価' },
+];
+
 export default function ShareView({ data }: { data: FormData }) {
   const cover = data.cover;
 
   return (
     <>
-      <div className="scene-bg" />
+      <div className="scene-bg share-scene-bg" />
       <div style={{ position: 'relative', zIndex: 1, minHeight: '100vh' }}>
         <header
-          className="site-header"
+          className="site-header share-top-header"
           style={{
-            padding: '32px 48px 28px',
+            padding: '28px 48px 22px',
             position: 'relative',
             overflow: 'hidden',
           }}
@@ -72,27 +84,103 @@ export default function ShareView({ data }: { data: FormData }) {
                 {cover.company || '所属法人 未入力'}　／　{cover.name || '氏名 未入力'}　／　グレード {cover.grade || '—'}
               </p>
             </div>
-            <span
-              style={{
-                fontSize: '.6875rem',
-                color: 'rgba(243,241,238,.85)',
-                background: 'rgba(255,255,255,.08)',
-                border: '1px solid rgba(243,241,238,.20)',
-                borderRadius: 999,
-                padding: '4px 12px',
-                letterSpacing: '.05em',
-              }}
-            >
-              READ ONLY
-            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span
+                style={{
+                  fontSize: '.6875rem',
+                  color: 'rgba(243,241,238,.85)',
+                  background: 'rgba(255,255,255,.08)',
+                  border: '1px solid rgba(243,241,238,.20)',
+                  borderRadius: 999,
+                  padding: '4px 12px',
+                  letterSpacing: '.05em',
+                }}
+              >
+                READ ONLY
+              </span>
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="share-print-btn"
+                style={{
+                  fontSize: '.75rem',
+                  fontWeight: 500,
+                  color: 'rgba(243,241,238,.85)',
+                  background: 'rgba(255,255,255,.10)',
+                  border: '1px solid rgba(243,241,238,.30)',
+                  borderRadius: 999,
+                  padding: '6px 14px',
+                  cursor: 'pointer',
+                  letterSpacing: '.02em',
+                }}
+              >
+                PDFで書き出す
+              </button>
+            </div>
           </div>
         </header>
 
+        <nav
+          className="share-anchor-bar"
+          aria-label="セクション内ナビゲーション"
+          style={{
+            position: 'sticky',
+            top: 0,
+            zIndex: 5,
+            background: 'rgba(32,33,26,.86)',
+            backdropFilter: 'var(--glass-blur)',
+            WebkitBackdropFilter: 'var(--glass-blur)',
+            borderBottom: '1px solid rgba(255,255,255,.08)',
+            padding: '8px 24px',
+            overflowX: 'auto',
+            whiteSpace: 'nowrap',
+            scrollbarWidth: 'thin',
+          }}
+        >
+          <div
+            style={{
+              maxWidth: 1080,
+              margin: '0 auto',
+              display: 'flex',
+              gap: 4,
+              alignItems: 'center',
+              flexWrap: 'wrap',
+            }}
+          >
+            {SECTIONS.map(s => (
+              <a
+                key={s.id}
+                href={`#${s.id}`}
+                style={{
+                  fontSize: '.75rem',
+                  fontWeight: 500,
+                  color: 'rgba(243,241,238,.72)',
+                  textDecoration: 'none',
+                  padding: '5px 12px',
+                  borderRadius: 999,
+                  letterSpacing: '.02em',
+                  transition: 'all 160ms cubic-bezier(.4,0,.2,1)',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = 'rgba(255,255,255,.10)';
+                  e.currentTarget.style.color = 'rgba(243,241,238,1)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = 'rgba(243,241,238,.72)';
+                }}
+              >
+                {s.label}
+              </a>
+            ))}
+          </div>
+        </nav>
+
         <main className="share-view" style={{ maxWidth: 1080, margin: '0 auto', padding: '24px 24px 80px' }}>
           <fieldset disabled style={{ border: 'none', padding: 0, margin: 0, minWidth: 0 }}>
-            <Section><CoverForm data={data.cover} onChange={noop} /></Section>
-            <Section><CompanyGoalForm data={data.group} onChange={noop} title="01｜グループ目標 記入シート" labelPrefix="グループ" /></Section>
-            <Section>
+            <Section id="cover"><CoverForm data={data.cover} onChange={noop} /></Section>
+            <Section id="group"><CompanyGoalForm data={data.group} onChange={noop} title="01｜グループ目標 記入シート" labelPrefix="グループ" /></Section>
+            <Section id="company">
               <CompanyGoalForm
                 data={data.company}
                 onChange={noop}
@@ -102,12 +190,12 @@ export default function ShareView({ data }: { data: FormData }) {
                 parentLabelPrefix="グループ"
               />
             </Section>
-            <Section><DeptGoalForm data={data.dept} onChange={noop} companyStrategicFocus={data.company.strategicFocus} /></Section>
-            <Section><PersonalGoalForm data={data.personal} onChange={noop} /></Section>
-            <Section><CommitmentForm data={data.personal} grade={data.cover.grade} onChange={noop} /></Section>
-            <Section><GradeForm selectedGrade={data.cover.grade} expectations={data.gradeExpectations} onChange={noop} /></Section>
-            <Section><PromotionForm data={data.promotion} onChange={noop} /></Section>
-            <Section><BonusForm data={data.bonus} onChange={noop} /></Section>
+            <Section id="dept"><DeptGoalForm data={data.dept} onChange={noop} companyStrategicFocus={data.company.strategicFocus} /></Section>
+            <Section id="personal"><PersonalGoalForm data={data.personal} onChange={noop} /></Section>
+            <Section id="commitment"><CommitmentForm data={data.personal} grade={data.cover.grade} onChange={noop} /></Section>
+            <Section id="grade"><GradeForm selectedGrade={data.cover.grade} expectations={data.gradeExpectations} onChange={noop} /></Section>
+            <Section id="promotion"><PromotionForm data={data.promotion} onChange={noop} /></Section>
+            <Section id="bonus"><BonusForm data={data.bonus} onChange={noop} /></Section>
           </fieldset>
         </main>
       </div>
@@ -115,8 +203,16 @@ export default function ShareView({ data }: { data: FormData }) {
   );
 }
 
-function Section({ children }: { children: React.ReactNode }) {
-  return <div className="glass-panel" style={{ marginBottom: 20 }}>{children}</div>;
+function Section({ id, children }: { id: string; children: React.ReactNode }) {
+  return (
+    <section
+      id={id}
+      className="glass-panel share-section"
+      style={{ marginBottom: 20, scrollMarginTop: 64 }}
+    >
+      {children}
+    </section>
+  );
 }
 
 export function ShareError({ message }: { message: string }) {

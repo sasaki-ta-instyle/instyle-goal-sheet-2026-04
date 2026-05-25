@@ -303,6 +303,62 @@ textarea.input {
   -webkit-text-fill-color: var(--color-text-light);
 }
 
+/* ── Print (PDF 書き出し) ── share view 用 ── */
+@media print {
+  /* 印刷時はサイドの装飾と sticky ナビを消し、紙に乗る情報だけ残す */
+  .share-scene-bg,
+  .share-anchor-bar,
+  .share-print-btn {
+    display: none !important;
+  }
+  /* 暗いヘッダー → 紙では黒墨で重いので、シンプルに */
+  .share-top-header {
+    background: #fff !important;
+    color: #111 !important;
+    padding: 16px 24px !important;
+    overflow: visible !important;
+  }
+  .share-top-header * {
+    color: #111 !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
+  }
+  .share-top-header img { opacity: 0.6 !important; }
+  /* glass-panel は紙ではただの白カード */
+  .share-view .glass-panel {
+    background: #fff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    border: 1px solid #e0ddd2 !important;
+    border-radius: 8px !important;
+    padding: 20px !important;
+    margin-bottom: 14px !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  /* 入力枠は紙では細い線だけで充分 */
+  .share-view fieldset[disabled] input,
+  .share-view fieldset[disabled] textarea,
+  .share-view fieldset[disabled] select {
+    background: transparent !important;
+    border: 1px solid #e0ddd2 !important;
+    color: #111 !important;
+    -webkit-text-fill-color: #111 !important;
+  }
+  /* セクションごとに改ページしたいときの目安 */
+  .share-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  /* リンクの下線を消す（紙では邪魔） */
+  a { text-decoration: none !important; color: #111 !important; }
+  /* 余白：A4 標準 */
+  @page { size: A4; margin: 12mm; }
+}
+
 /* シェア時は最小高さの縛りも外して、書いた分だけぴったり表示する。
    共通の textarea.input が field-sizing: content を持っているので、ここでは
    インラインで指定された min-height を打ち消すだけでよい。 */
