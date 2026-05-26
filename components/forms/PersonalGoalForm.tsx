@@ -239,7 +239,7 @@ export default function PersonalGoalForm({ data, onChange }: Props) {
       <p style={{ fontSize: '.8125rem', fontWeight: 600, marginBottom: 6, display: 'flex', alignItems: 'baseline', gap: 12 }}>
         <span>③ SL理論</span>
         <a
-          href="https://www.dodadsj.com/content/20230224_sl-theory/"
+          href="https://www.earthship-c.com/leadership/situational-leadership-theory/"
           target="_blank"
           rel="noopener noreferrer"
           style={{
