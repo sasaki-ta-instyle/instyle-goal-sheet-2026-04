@@ -10,6 +10,7 @@ import GradeForm from '@/components/forms/GradeForm';
 import PromotionForm from '@/components/forms/PromotionForm';
 import BonusForm from '@/components/forms/BonusForm';
 import { FormData } from '@/lib/types';
+import { baseFromPathname, buildShortShareUrl } from '@/lib/share-codec';
 
 const noop = () => {};
 
@@ -28,6 +29,44 @@ const SECTIONS = [
 export default function ShareView({ data }: { data: FormData }) {
   const cover = data.cover;
   const [activeId, setActiveId] = useState<string>('top');
+  const [comment, setComment] = useState<string>(data.personal.supervisorComment ?? '');
+  const [publishing, setPublishing] = useState(false);
+  const [publishedUrl, setPublishedUrl] = useState('');
+  const [publishedCopied, setPublishedCopied] = useState(false);
+  const [publishError, setPublishError] = useState('');
+
+  const handlePublish = async () => {
+    setPublishing(true);
+    setPublishError('');
+    setPublishedCopied(false);
+    try {
+      const next: FormData = {
+        ...data,
+        personal: { ...data.personal, supervisorComment: comment },
+      };
+      const base = baseFromPathname(window.location.pathname);
+      const res = await fetch(`${base}/api/share`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(next),
+      });
+      if (!res.ok) throw new Error(`status ${res.status}`);
+      const { token } = (await res.json()) as { token?: string };
+      if (!token) throw new Error('no token');
+      const url = buildShortShareUrl(window.location.origin, window.location.pathname, token);
+      setPublishedUrl(url);
+      try {
+        await navigator.clipboard.writeText(url);
+        setPublishedCopied(true);
+        setTimeout(() => setPublishedCopied(false), 2400);
+      } catch {}
+    } catch (e) {
+      console.error(e);
+      setPublishError('新URLの発行に失敗しました。時間をおいて再度お試しください。');
+    } finally {
+      setPublishing(false);
+    }
+  };
 
   useEffect(() => {
     const targets = SECTIONS
@@ -116,22 +155,6 @@ export default function ShareView({ data }: { data: FormData }) {
                 {cover.company || '所属法人 未入力'}　／　{cover.name || '氏名 未入力'}　／　グレード {cover.grade || '—'}
               </p>
             </div>
-            <button
-              type="button"
-              onClick={() => window.print()}
-              className="share-print-btn"
-              style={{
-                fontSize: '.75rem',
-                color: 'rgba(243,241,238,.45)',
-                background: 'transparent',
-                border: '1px solid rgba(243,241,238,.20)',
-                borderRadius: 'var(--r)',
-                padding: '6px 14px',
-                cursor: 'pointer',
-              }}
-            >
-              PDFで書き出す
-            </button>
           </div>
         </header>
 
@@ -222,6 +245,117 @@ export default function ShareView({ data }: { data: FormData }) {
             <Section id="promotion"><PromotionForm data={data.promotion} onChange={noop} /></Section>
             <Section id="bonus"><BonusForm data={data.bonus} onChange={noop} /></Section>
           </fieldset>
+
+          <section
+            id="supervisor-comment"
+            className="glass-panel"
+            style={{ marginTop: 28, scrollMarginTop: 64 }}
+          >
+            <p className="section-title">上長コメントを追記して、新URLでオーナーに展開</p>
+            <p style={{ fontSize: '.8125rem', color: 'var(--color-text-muted)', marginBottom: 16, lineHeight: 1.7 }}>
+              本人の入力内容を確認したうえで、下のテキストエリアに上長コメントを記入してください。
+              「コメント付き新URLを発行」を押すと、コメントを含めた新しいシェア用URLが発行され、自動でクリップボードにコピーされます。
+              そのURLをそのままオーナーに展開してください。
+            </p>
+            <textarea
+              value={comment}
+              onChange={e => setComment(e.target.value)}
+              placeholder="期初の期待・SL の合意・ギャランティへの所感・コメントなど"
+              style={{
+                width: '100%',
+                padding: '10px 12px',
+                fontSize: '.8125rem',
+                lineHeight: 1.7,
+                fontFamily: 'inherit',
+                background: 'rgba(255,255,255,.78)',
+                border: '1px solid var(--glass-border-w)',
+                borderRadius: 'var(--r)',
+                resize: 'none',
+                minHeight: 120,
+                fieldSizing: 'content',
+                color: 'var(--color-text)',
+              } as React.CSSProperties}
+            />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 14, flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                onClick={handlePublish}
+                disabled={publishing || !comment.trim()}
+                className="btn btn-primary"
+                style={{ fontSize: '.8125rem' }}
+              >
+                {publishing
+                  ? '発行中…'
+                  : publishedCopied
+                    ? '✓ 新URLをコピーしました'
+                    : publishedUrl
+                      ? '🔗 もう一度発行＆コピー'
+                      : '🔗 コメント付き新URLを発行'}
+              </button>
+              {publishError && (
+                <span style={{ fontSize: '.75rem', color: 'var(--color-error)' }}>{publishError}</span>
+              )}
+            </div>
+            {publishedUrl && (
+              <div style={{
+                marginTop: 14,
+                padding: '14px 16px',
+                background: 'rgba(123,183,133,.14)',
+                border: '1px solid rgba(123,183,133,.30)',
+                borderRadius: 'var(--r)',
+                display: 'grid',
+                gap: 10,
+              }}>
+                <div style={{ fontSize: '.8125rem', fontWeight: 600, color: 'var(--color-text)' }}>
+                  ✓ コメント付き新URLを発行しました。このまま Slack/メールでオーナーに送付してください。
+                </div>
+                <code
+                  style={{
+                    fontSize: '.7rem',
+                    color: 'var(--color-text-muted)',
+                    wordBreak: 'break-all',
+                    background: 'rgba(255,255,255,.65)',
+                    padding: '8px 10px',
+                    borderRadius: 'var(--r-sm)',
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {publishedUrl}
+                </code>
+                <div style={{ display: 'flex', gap: 14, fontSize: '.75rem' }}>
+                  <a
+                    href={publishedUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: 'var(--color-info)', textDecoration: 'underline' }}
+                  >
+                    新規タブで見え方を確認 →
+                  </a>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(publishedUrl);
+                        setPublishedCopied(true);
+                        setTimeout(() => setPublishedCopied(false), 2400);
+                      } catch {}
+                    }}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: 'var(--color-info)',
+                      cursor: 'pointer',
+                      padding: 0,
+                      textDecoration: 'underline',
+                      fontSize: '.75rem',
+                    }}
+                  >
+                    もう一度コピー
+                  </button>
+                </div>
+              </div>
+            )}
+          </section>
         </main>
       </div>
     </>
