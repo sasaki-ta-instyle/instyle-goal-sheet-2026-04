@@ -146,6 +146,21 @@ export default function Home() {
     URL.revokeObjectURL(url);
   };
 
+  // 上長が「部署目標」だけを切り出して、配下のメンバーに渡すためのエクスポート。
+  // 配下のメンバーがインポートすると、自分の入力には触れず部署目標だけが上書きされる。
+  const handleExportDept = () => {
+    const payload = { _kind: 'dept-only' as const, dept: formData.dept };
+    const json = JSON.stringify(payload, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const period = formData.cover.period || '';
+    a.href = url;
+    a.download = `goal-sheet_部署目標_${period}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -153,6 +168,22 @@ export default function Home() {
     reader.onload = () => {
       try {
         const parsed = JSON.parse(reader.result as string);
+        // 「部署目標だけ」の部分インポート：自分の入力は保持して dept のみ上書き
+        if (parsed && typeof parsed === 'object' && parsed._kind === 'dept-only' && parsed.dept) {
+          const def = createDefaultFormData();
+          setFormData(prev => ({
+            ...prev,
+            dept: {
+              ...def.dept,
+              ...parsed.dept,
+              kgi1: { ...def.dept.kgi1, ...(parsed.dept.kgi1 ?? {}) },
+              kgi2: { ...def.dept.kgi2, ...(parsed.dept.kgi2 ?? {}) },
+            },
+          }));
+          alert('部署目標を取り込みました（他の入力はそのままです）。');
+          return;
+        }
+        // 通常の全体インポート
         setFormData(mergeFormData(parsed));
         setStep(1);
         setShareUrl('');
@@ -283,6 +314,21 @@ export default function Home() {
                 }}
               >
                 データを書き出す
+              </button>
+              <button
+                onClick={handleExportDept}
+                title="上長が部署目標だけを切り出して、配下のメンバーに配るためのエクスポート"
+                style={{
+                  fontSize: '.75rem',
+                  color: 'rgba(243,241,238,.45)',
+                  background: 'transparent',
+                  border: '1px solid rgba(243,241,238,.20)',
+                  borderRadius: 'var(--r)',
+                  padding: '6px 14px',
+                  cursor: 'pointer',
+                }}
+              >
+                部署目標を書き出す
               </button>
               <button
                 onClick={handleReset}
