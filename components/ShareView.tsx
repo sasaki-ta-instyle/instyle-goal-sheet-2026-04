@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import CoverForm from '@/components/forms/CoverForm';
 import CompanyGoalForm from '@/components/forms/CompanyGoalForm';
 import DeptGoalForm from '@/components/forms/DeptGoalForm';
@@ -26,6 +27,35 @@ const SECTIONS = [
 
 export default function ShareView({ data }: { data: FormData }) {
   const cover = data.cover;
+  const [activeId, setActiveId] = useState<string>('top');
+
+  useEffect(() => {
+    const targets = SECTIONS
+      .map(s => document.getElementById(s.id))
+      .filter((el): el is HTMLElement => el !== null);
+    if (targets.length === 0) return;
+
+    // ビューポート上 80px（sticky アンカーバー分）から、画面真ん中 + 少し下までを観察領域に。
+    // 可視中の要素のうち最上部にあるものを「現在地」とする。
+    const observer = new IntersectionObserver(
+      entries => {
+        setActiveId(prev => {
+          const visible = entries
+            .filter(e => e.isIntersecting)
+            .map(e => e.target.id);
+          if (visible.length === 0) return prev;
+          // SECTIONS の順序で先頭にあるものを返す（上から走査）
+          return SECTIONS.find(s => visible.includes(s.id))?.id ?? prev;
+        });
+      },
+      {
+        rootMargin: '-80px 0px -55% 0px',
+        threshold: 0,
+      }
+    );
+    targets.forEach(t => observer.observe(t));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <>
@@ -148,32 +178,41 @@ export default function ShareView({ data }: { data: FormData }) {
               flexWrap: 'wrap',
             }}
           >
-            {SECTIONS.map(s => (
-              <a
-                key={s.id}
-                href={`#${s.id}`}
-                style={{
-                  fontSize: '.75rem',
-                  fontWeight: 500,
-                  color: 'rgba(243,241,238,.72)',
-                  textDecoration: 'none',
-                  padding: '5px 12px',
-                  borderRadius: 999,
-                  letterSpacing: '.02em',
-                  transition: 'all 160ms cubic-bezier(.4,0,.2,1)',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = 'rgba(255,255,255,.10)';
-                  e.currentTarget.style.color = 'rgba(243,241,238,1)';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.color = 'rgba(243,241,238,.72)';
-                }}
-              >
-                {s.label}
-              </a>
-            ))}
+            {SECTIONS.map(s => {
+              const active = s.id === activeId;
+              return (
+                <a
+                  key={s.id}
+                  href={`#${s.id}`}
+                  aria-current={active ? 'true' : undefined}
+                  style={{
+                    fontSize: '.75rem',
+                    fontWeight: active ? 600 : 500,
+                    color: active ? 'rgba(243,241,238,1)' : 'rgba(243,241,238,.55)',
+                    background: active ? 'rgba(255,255,255,.14)' : 'transparent',
+                    textDecoration: 'none',
+                    padding: '5px 12px',
+                    borderRadius: 999,
+                    letterSpacing: '.02em',
+                    transition: 'all 200ms cubic-bezier(.4,0,.2,1)',
+                  }}
+                  onMouseEnter={e => {
+                    if (!active) {
+                      e.currentTarget.style.background = 'rgba(255,255,255,.08)';
+                      e.currentTarget.style.color = 'rgba(243,241,238,.92)';
+                    }
+                  }}
+                  onMouseLeave={e => {
+                    if (!active) {
+                      e.currentTarget.style.background = 'transparent';
+                      e.currentTarget.style.color = 'rgba(243,241,238,.55)';
+                    }
+                  }}
+                >
+                  {s.label}
+                </a>
+              );
+            })}
           </div>
         </nav>
 
