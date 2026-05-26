@@ -120,15 +120,12 @@ export default function ShareView({ data }: { data: FormData }) {
               <span
                 style={{
                   fontSize: '.6875rem',
-                  color: 'rgba(243,241,238,.85)',
-                  background: 'rgba(255,255,255,.08)',
-                  border: '1px solid rgba(243,241,238,.20)',
-                  borderRadius: 999,
-                  padding: '4px 12px',
-                  letterSpacing: '.05em',
+                  color: 'rgba(243,241,238,.42)',
+                  letterSpacing: '.12em',
+                  textTransform: 'uppercase',
                 }}
               >
-                READ ONLY
+                Read Only
               </span>
               <button
                 type="button"
