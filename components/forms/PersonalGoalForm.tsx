@@ -321,8 +321,6 @@ export default function PersonalGoalForm({ data, onChange }: Props) {
       <p style={{ fontSize: '.8125rem', fontWeight: 600, marginBottom: 6 }}>④ 上長からの一言</p>
       <p style={{ fontSize: '.75rem', color: 'var(--color-text-muted)', marginBottom: 12, lineHeight: 1.7 }}>
         ここは本人ではなく上長が記入します。シートが書き終わったらシェア用URLを上長に送ってください。
-        上長がURL先のページ末尾でコメントを記入し「コメント付き新URLを発行」を押すと、コメントが反映された新URLが発行されます。
-        その新URLをそのままオーナーに展開してください。
       </p>
       <textarea
         className="input"
