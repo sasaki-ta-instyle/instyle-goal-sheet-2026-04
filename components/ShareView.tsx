@@ -116,34 +116,22 @@ export default function ShareView({ data }: { data: FormData }) {
                 {cover.company || '所属法人 未入力'}　／　{cover.name || '氏名 未入力'}　／　グレード {cover.grade || '—'}
               </p>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span
-                style={{
-                  fontSize: '.6875rem',
-                  color: 'rgba(243,241,238,.42)',
-                  letterSpacing: '.12em',
-                  textTransform: 'uppercase',
-                }}
-              >
-                Read Only
-              </span>
-              <button
-                type="button"
-                onClick={() => window.print()}
-                className="share-print-btn"
-                style={{
-                  fontSize: '.75rem',
-                  color: 'rgba(243,241,238,.45)',
-                  background: 'transparent',
-                  border: '1px solid rgba(243,241,238,.20)',
-                  borderRadius: 'var(--r)',
-                  padding: '6px 14px',
-                  cursor: 'pointer',
-                }}
-              >
-                PDFで書き出す
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => window.print()}
+              className="share-print-btn"
+              style={{
+                fontSize: '.75rem',
+                color: 'rgba(243,241,238,.45)',
+                background: 'transparent',
+                border: '1px solid rgba(243,241,238,.20)',
+                borderRadius: 'var(--r)',
+                padding: '6px 14px',
+                cursor: 'pointer',
+              }}
+            >
+              PDFで書き出す
+            </button>
           </div>
         </header>
 
