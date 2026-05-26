@@ -281,7 +281,7 @@ export default function Home() {
             <div>
               <img src="https://app.instyle.group/_shared/static/logo.svg" alt="INSTYLE GROUP" style={{ height: 10, marginBottom: 10, filter: 'brightness(0) invert(1)', opacity: 0.45 }} />
               <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-text-inv)', letterSpacing: '-.02em', marginBottom: 6 }}>
-                目標設定シート <span style={{ fontSize: '1rem', fontWeight: 400, opacity: 0.6 }}>2026.10〜2027.3</span>
+                目標設定シート <span style={{ fontSize: '1rem', fontWeight: 400, opacity: 0.6 }}>2026.4〜9</span>
               </h1>
               <p style={{ fontSize: '.8125rem', color: 'rgba(243,241,238,.45)' }}>
                 入力内容は自動保存されます。完成後はシェア用URLでオーナーに共有できます。<br />
