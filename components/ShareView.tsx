@@ -70,6 +70,15 @@ export default function ShareView({ data }: { data: FormData }) {
   };
 
   useEffect(() => {
+    const prev = document.title;
+    const name = (cover.name ?? '').trim();
+    document.title = name
+      ? `${name} | 目標設定シート | INSTYLE GROUP`
+      : '目標設定シート | INSTYLE GROUP';
+    return () => { document.title = prev; };
+  }, [cover.name]);
+
+  useEffect(() => {
     const targets = SECTIONS
       .map(s => document.getElementById(s.id))
       .filter((el): el is HTMLElement => el !== null);

@@ -1,8 +1,21 @@
+import type { Metadata } from 'next';
 import ShareView, { ShareError } from '@/components/ShareView';
 import { readShare } from '@/lib/share-store';
 import { createDefaultFormData, CURRENT_PERIOD, FormData } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
+
+export async function generateMetadata({ params }: { params: Promise<{ token: string }> }): Promise<Metadata> {
+  try {
+    const { token } = await params;
+    const raw = await readShare(token);
+    const name = ((raw as { cover?: { name?: string } } | null)?.cover?.name ?? '').trim();
+    if (!name) return { title: '目標設定シート | INSTYLE GROUP' };
+    return { title: `${name} | 目標設定シート | INSTYLE GROUP` };
+  } catch {
+    return { title: '目標設定シート | INSTYLE GROUP' };
+  }
+}
 
 function normalizeFormData(parsed: unknown): FormData | null {
   if (!parsed || typeof parsed !== 'object') return null;
