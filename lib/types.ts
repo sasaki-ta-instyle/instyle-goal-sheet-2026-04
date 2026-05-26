@@ -125,6 +125,9 @@ export interface FormData {
   promotion: PromotionData;
   bonus: BonusData;
   gradeExpectations: GradeExpectations;
+  /** 上長がコメント付き新URLを発行した時点で true。
+   * 共有URL先で上長コメント編集パネルを隠す判定に使う。 */
+  finalized?: boolean;
 }
 
 export interface GradeEntry {

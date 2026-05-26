@@ -43,6 +43,7 @@ export default function ShareView({ data }: { data: FormData }) {
       const next: FormData = {
         ...data,
         personal: { ...data.personal, supervisorComment: comment },
+        finalized: true,
       };
       const base = baseFromPathname(window.location.pathname);
       const res = await fetch(`${base}/api/share`, {
@@ -246,6 +247,7 @@ export default function ShareView({ data }: { data: FormData }) {
             <Section id="bonus"><BonusForm data={data.bonus} onChange={noop} /></Section>
           </fieldset>
 
+          {!data.finalized && (
           <section
             id="supervisor-comment"
             className="glass-panel"
@@ -356,6 +358,7 @@ export default function ShareView({ data }: { data: FormData }) {
               </div>
             )}
           </section>
+          )}
         </main>
       </div>
     </>
