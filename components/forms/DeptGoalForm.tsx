@@ -149,10 +149,10 @@ export default function DeptGoalForm({ data, onChange, companyStrategicFocus }: 
 
       <p style={{ fontSize: '.8125rem', fontWeight: 600, marginBottom: 12 }}>③ 部署KPI目標</p>
       <div className="table-wrap" style={{ marginBottom: 24 }}>
-        <table className="data-table" style={{ tableLayout: 'fixed', width: '100%' }}>
+        <table className="data-table" style={{ tableLayout: 'fixed', width: 'auto' }}>
           <colgroup>
             <col style={{ width: 130 }} />
-            <col />
+            <col style={{ width: 260 }} />
             <col style={{ width: 72 }} />
             <col style={{ width: 72 }} />
             <col style={{ width: 72 }} />
