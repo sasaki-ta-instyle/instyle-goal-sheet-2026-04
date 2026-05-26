@@ -153,10 +153,10 @@ export default function DeptGoalForm({ data, onChange, companyStrategicFocus }: 
           <colgroup>
             <col style={{ width: 130 }} />
             <col />
-            <col style={{ width: 88 }} />
-            <col style={{ width: 88 }} />
-            <col style={{ width: 88 }} />
-            <col style={{ width: 70 }} />
+            <col style={{ width: 72 }} />
+            <col style={{ width: 72 }} />
+            <col style={{ width: 72 }} />
+            <col style={{ width: 60 }} />
           </colgroup>
           <thead>
             <tr>
