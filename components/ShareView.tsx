@@ -13,7 +13,7 @@ import { FormData } from '@/lib/types';
 const noop = () => {};
 
 const SECTIONS = [
-  { id: 'cover', label: 'カバー' },
+  { id: 'top', label: 'トップ' },
   { id: 'group', label: 'グループ目標' },
   { id: 'company', label: '会社目標' },
   { id: 'dept', label: '部署目標' },
@@ -32,11 +32,13 @@ export default function ShareView({ data }: { data: FormData }) {
       <div className="scene-bg share-scene-bg" />
       <div style={{ position: 'relative', zIndex: 1, minHeight: '100vh' }}>
         <header
+          id="top"
           className="site-header share-top-header"
           style={{
             padding: '28px 48px 22px',
             position: 'relative',
             overflow: 'hidden',
+            scrollMarginTop: 0,
           }}
         >
           <div
@@ -104,14 +106,12 @@ export default function ShareView({ data }: { data: FormData }) {
                 className="share-print-btn"
                 style={{
                   fontSize: '.75rem',
-                  fontWeight: 500,
-                  color: 'rgba(243,241,238,.85)',
-                  background: 'rgba(255,255,255,.10)',
-                  border: '1px solid rgba(243,241,238,.30)',
-                  borderRadius: 999,
+                  color: 'rgba(243,241,238,.45)',
+                  background: 'transparent',
+                  border: '1px solid rgba(243,241,238,.20)',
+                  borderRadius: 'var(--r)',
                   padding: '6px 14px',
                   cursor: 'pointer',
-                  letterSpacing: '.02em',
                 }}
               >
                 PDFで書き出す
@@ -144,6 +144,7 @@ export default function ShareView({ data }: { data: FormData }) {
               display: 'flex',
               gap: 4,
               alignItems: 'center',
+              justifyContent: 'center',
               flexWrap: 'wrap',
             }}
           >
