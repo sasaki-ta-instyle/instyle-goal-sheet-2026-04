@@ -14,7 +14,7 @@ import BonusForm from '@/components/forms/BonusForm';
 import { createDefaultFormData, CURRENT_PERIOD, FormData, CommitmentRow, SmartGoalRow } from '@/lib/types';
 import { encodeFormData, buildShortShareUrl, buildLongShareUrl, baseFromPathname } from '@/lib/share-codec';
 
-const STORAGE_KEY = 'instyle-goal-sheet-2026-04-v1';
+const STORAGE_KEY = 'instyle-goal-sheet-2026-10-v1';
 
 // 旧 SmartGoalRow（goal/targetValue/deadline/note）→ 新 SmartGoalRow（s/m/a/r/t/note）に
 // 写し替える。旧 goal→s、旧 targetValue→m、旧 deadline→t、note はそのまま。
@@ -250,11 +250,11 @@ export default function Home() {
             <div>
               <img src="https://app.instyle.group/_shared/static/logo.svg" alt="INSTYLE GROUP" style={{ height: 10, marginBottom: 10, filter: 'brightness(0) invert(1)', opacity: 0.45 }} />
               <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-text-inv)', letterSpacing: '-.02em', marginBottom: 6 }}>
-                目標設定シート <span style={{ fontSize: '1rem', fontWeight: 400, opacity: 0.6 }}>2026.4〜9</span>
+                目標設定シート <span style={{ fontSize: '1rem', fontWeight: 400, opacity: 0.6 }}>2026.10〜2027.3</span>
               </h1>
               <p style={{ fontSize: '.8125rem', color: 'rgba(243,241,238,.45)' }}>
                 入力内容は自動保存されます。完成後はシェア用URLでオーナーに共有できます。<br />
-                来期のシート作成に備えて、完成後は「データを保存」（JSON形式）しておきましょう。来期は読み込むだけで引き継げます。
+                来期のシート作成に備えて、完成後は「データを書き出す」（JSON形式）しておきましょう。来期は読み込むだけで引き継げます。
               </p>
             </div>
             <div className="header-buttons" style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
@@ -282,7 +282,7 @@ export default function Home() {
                   cursor: 'pointer',
                 }}
               >
-                データを保存
+                データを書き出す
               </button>
               <button
                 onClick={handleReset}
