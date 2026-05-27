@@ -142,6 +142,29 @@ body {
 .btn-lg { padding: 14px 32px; font-size: 1rem; }
 .btn-sm { padding: 7px 16px; font-size: .8125rem; }
 
+/* ── Header action buttons (top-right cluster) ── */
+.header-action {
+  display: inline-flex;
+  align-items: center;
+  font-size: .75rem;
+  color: rgba(243,241,238,.45);
+  background: transparent;
+  border: 1px solid rgba(243,241,238,.20);
+  border-radius: var(--r);
+  padding: 6px 14px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: color 150ms var(--ease-out), border-color 150ms var(--ease-out);
+}
+.header-action:hover,
+.header-action:focus-visible {
+  color: rgba(243,241,238,1);
+  border-color: rgba(243,241,238,.40);
+}
+.header-action:focus-visible {
+  outline: none;
+}
+
 /* ── Form inputs ── */
 .form-label {
   display: block;

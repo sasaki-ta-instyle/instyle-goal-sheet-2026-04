@@ -289,59 +289,21 @@ export default function Home() {
               </p>
             </div>
             <div className="header-buttons" style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
-              <label style={{
-                fontSize: '.75rem',
-                color: 'rgba(243,241,238,.45)',
-                background: 'transparent',
-                border: '1px solid rgba(243,241,238,.20)',
-                borderRadius: 'var(--r)',
-                padding: '6px 14px',
-                cursor: 'pointer',
-              }}>
+              <label className="header-action">
                 データを読み込む
                 <input type="file" accept=".json" onChange={handleImport} style={{ display: 'none' }} />
               </label>
-              <button
-                onClick={handleExport}
-                style={{
-                  fontSize: '.75rem',
-                  color: 'rgba(243,241,238,.45)',
-                  background: 'transparent',
-                  border: '1px solid rgba(243,241,238,.20)',
-                  borderRadius: 'var(--r)',
-                  padding: '6px 14px',
-                  cursor: 'pointer',
-                }}
-              >
+              <button className="header-action" onClick={handleExport}>
                 データを書き出す
               </button>
               <button
+                className="header-action"
                 onClick={handleExportDept}
                 title="上長が部署目標だけを切り出して、配下のメンバーに配るためのエクスポート"
-                style={{
-                  fontSize: '.75rem',
-                  color: 'rgba(243,241,238,.45)',
-                  background: 'transparent',
-                  border: '1px solid rgba(243,241,238,.20)',
-                  borderRadius: 'var(--r)',
-                  padding: '6px 14px',
-                  cursor: 'pointer',
-                }}
               >
                 部署目標を書き出す
               </button>
-              <button
-                onClick={handleReset}
-                style={{
-                  fontSize: '.75rem',
-                  color: 'rgba(243,241,238,.45)',
-                  background: 'transparent',
-                  border: '1px solid rgba(243,241,238,.20)',
-                  borderRadius: 'var(--r)',
-                  padding: '6px 14px',
-                  cursor: 'pointer',
-                }}
-              >
+              <button className="header-action" onClick={handleReset}>
                 入力をリセット
               </button>
             </div>
