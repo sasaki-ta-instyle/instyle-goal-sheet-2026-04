@@ -78,6 +78,38 @@ export default function ShareView({ data }: { data: FormData }) {
     return () => { document.title = prev; };
   }, [cover.name]);
 
+  // 入力欄に書かれた URL を抽出して、欄の直下に「↗ URL」リンクを別タブで開く形で添える。
+  // fieldset disabled 内の input/textarea はリンクにできないので、外側に補助リンクを生やす。
+  useEffect(() => {
+    const root = document.querySelector('.share-view');
+    if (!root) return;
+    root.querySelectorAll('.share-url-links').forEach(el => el.remove());
+    const urlPattern = /https?:\/\/[^\s)」』、,】\]]+/g;
+    const controls = root.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea');
+    controls.forEach(el => {
+      const val = el.value;
+      if (!val) return;
+      const matches = val.match(urlPattern);
+      if (!matches || matches.length === 0) return;
+      const unique = Array.from(new Set(matches));
+      const wrapper = document.createElement('div');
+      wrapper.className = 'share-url-links';
+      wrapper.style.cssText = 'margin-top: 4px; display: flex; flex-direction: column; gap: 2px;';
+      unique.forEach(raw => {
+        const url = raw.replace(/[.,;:!?'")\]}>]+$/, '');
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        const label = url.length > 56 ? url.slice(0, 56) + '…' : url;
+        a.textContent = `↗ ${label}`;
+        a.style.cssText = 'font-size: .7rem; color: var(--color-info); text-decoration: underline; word-break: break-all; line-height: 1.5;';
+        wrapper.appendChild(a);
+      });
+      el.parentNode?.insertBefore(wrapper, el.nextSibling);
+    });
+  }, [data]);
+
   useEffect(() => {
     const targets = SECTIONS
       .map(s => document.getElementById(s.id))
