@@ -476,12 +476,17 @@ function ConfirmView({ data }: { data: FormData }) {
         ? `${promotionTotal}pt（VALUEゲート未通過）`
         : `${promotionTotal}pt（あと${11 - promotionTotal}pt）`;
 
+  const guarantyTotal = data.personal.commitment.reduce((sum, r) => {
+    const n = parseInt(r.amount || '0', 10);
+    return sum + (Number.isFinite(n) ? n : 0);
+  }, 0);
+
   const rows = [
     { label: '所属法人', value: data.cover.company || '（未入力）' },
     { label: '氏名', value: data.cover.name || '（未入力）' },
     { label: 'グレード', value: data.cover.grade || '（未入力）' },
     { label: '期', value: data.cover.period || '（未入力）' },
-    { label: '個人目標数', value: `${data.personal.smartGoals.filter(r => r.s || r.m || r.a || r.r || r.t).length} 件` },
+    { label: 'ギャランティ合計', value: `${guarantyTotal.toLocaleString('ja-JP')}円 / 年` },
     { label: '昇格評価合計', value: promotionLabel },
     { label: 'ボーナス支給額', value: phase1Total >= 3 ? `${(phase2Total * 110000).toLocaleString('ja-JP')}円` : '0円（財務ゲート未通過）' },
   ];
