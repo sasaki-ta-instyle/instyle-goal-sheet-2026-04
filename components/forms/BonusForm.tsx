@@ -77,7 +77,8 @@ export default function BonusForm({ data, onChange }: Props) {
     data.mgmtEval;
 
   const phase1Pass = phase1Total >= 3;
-  const bonusAmount = phase1Pass ? phase2Total * 110000 : 0;
+  const totalPoints = phase1Total + phase2Total;
+  const bonusAmount = phase1Pass ? totalPoints * 110000 : 0;
 
   return (
     <div>
@@ -187,7 +188,7 @@ export default function BonusForm({ data, onChange }: Props) {
         </p>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
           <span style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-text)' }}>
-            {phase1Pass ? phase2Total : '—'}
+            {phase1Pass ? totalPoints : '—'}
             {phase1Pass && <span style={{ fontSize: '1rem', fontWeight: 400, marginLeft: 4 }}>pt</span>}
           </span>
           <span style={{ fontSize: '1.25rem', color: 'var(--color-text-muted)' }}>×</span>

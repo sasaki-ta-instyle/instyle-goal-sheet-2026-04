@@ -488,7 +488,7 @@ function ConfirmView({ data }: { data: FormData }) {
     { label: '期', value: data.cover.period || '（未入力）' },
     { label: 'ギャランティ合計', value: `${guarantyTotal.toLocaleString('ja-JP')}円 / 年` },
     { label: '昇格評価合計', value: promotionLabel },
-    { label: 'ボーナス支給額', value: phase1Total >= 3 ? `${(phase2Total * 110000).toLocaleString('ja-JP')}円` : '0円（財務ゲート未通過）' },
+    { label: 'ボーナス支給額', value: phase1Total >= 3 ? `${((phase1Total + phase2Total) * 110000).toLocaleString('ja-JP')}円` : '0円（財務ゲート未通過）' },
   ];
 
   return (
