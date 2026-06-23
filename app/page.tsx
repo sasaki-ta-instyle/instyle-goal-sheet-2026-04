@@ -455,11 +455,12 @@ export default function Home() {
 
 function ConfirmView({ data }: { data: FormData }) {
   const phase1Total = data.bonus.canAfford + data.bonus.hasProfit + data.bonus.futureProfit;
-  const supervisorPoints = data.bonus.supervisorEval * (data.bonus.noSupervisor ? 2 : 1);
+  const supervisorPoints = data.bonus.noSupervisor ? 0 : data.bonus.supervisorEval;
+  const mgmtPoints = data.bonus.mgmtEval * (data.bonus.noSupervisor ? 2 : 1);
   const phase2Total =
     data.bonus.deptKpiAchieved + data.bonus.personalKpiAchieved + supervisorPoints +
     data.bonus.valueEval + data.bonus.reproducibility + data.bonus.roleAchievement +
-    data.bonus.difficulty + data.bonus.mgmtEval;
+    data.bonus.difficulty + mgmtPoints;
   const promotionTotal =
     data.promotion.tenurePoint + data.promotion.deptGrowthPoint + data.promotion.personalKpiPoint +
     data.promotion.supervisorPoint + data.promotion.mgmtPoint + data.promotion.nurturingPoint;

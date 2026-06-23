@@ -65,7 +65,8 @@ export default function BonusForm({ data, onChange }: Props) {
     onChange({ ...data, [key]: value });
 
   const phase1Total = data.canAfford + data.hasProfit + data.futureProfit;
-  const supervisorPoints = data.supervisorEval * (data.noSupervisor ? 2 : 1);
+  const supervisorPoints = data.noSupervisor ? 0 : data.supervisorEval;
+  const mgmtPoints = data.mgmtEval * (data.noSupervisor ? 2 : 1);
   const phase2Total =
     data.deptKpiAchieved +
     data.personalKpiAchieved +
@@ -74,7 +75,7 @@ export default function BonusForm({ data, onChange }: Props) {
     data.reproducibility +
     data.roleAchievement +
     data.difficulty +
-    data.mgmtEval;
+    mgmtPoints;
 
   const phase1Pass = phase1Total >= 3;
   const totalPoints = phase1Total + phase2Total;
@@ -153,12 +154,25 @@ export default function BonusForm({ data, onChange }: Props) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <Toggle value={data.deptKpiAchieved} onChange={v => set('deptKpiAchieved', v)} label="④ 部署KPI達成" description="期初設定・合意した主要KPIを達成している" />
           <Toggle value={data.personalKpiAchieved} onChange={v => set('personalKpiAchieved', v)} label="⑤ 個人KPI達成" description="個人KPI達成、または未達でもそれを補う明確な成果あり" />
-          <Toggle
-            value={data.supervisorEval}
-            onChange={v => set('supervisorEval', v)}
-            label={`⑥ 直属上司評価${data.noSupervisor ? '（上司不在・重み2倍）' : ''}`}
-            description="当期の貢献度を総合的に見て明確に評価できる"
-          />
+          {data.noSupervisor ? (
+            <div style={{
+              padding: '14px 16px',
+              background: 'rgba(230,226,215,.20)',
+              borderRadius: 'var(--r)',
+              border: '1px dashed rgba(53,54,45,.20)',
+              fontSize: '.875rem',
+              color: 'var(--color-text-muted)',
+            }}>
+              ⑥ 直属上司評価 ― 上司不在のためブランク（⑪に重み 2 倍として加算）
+            </div>
+          ) : (
+            <Toggle
+              value={data.supervisorEval}
+              onChange={v => set('supervisorEval', v)}
+              label="⑥ 直属上司評価"
+              description="当期の貢献度を総合的に見て明確に評価できる"
+            />
+          )}
           <label style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 16px', fontSize: '.8125rem', color: 'var(--color-text-muted)', cursor: 'pointer' }}>
             <input
               type="checkbox"
@@ -166,13 +180,18 @@ export default function BonusForm({ data, onChange }: Props) {
               onChange={e => set('noSupervisor', e.target.checked)}
               style={{ width: 16, height: 16, cursor: 'pointer' }}
             />
-            直属上司が不在（評価値を2倍として計算）
+            直属上司が不在（⑥はブランク、⑪を重み2倍で計算）
           </label>
           <Toggle value={data.valueEval} onChange={v => set('valueEval', v)} label="⑦ 360°評価（バリュー）" description="バリュー体現が一貫。違反や評価の大きな割れなし" />
           <Toggle value={data.reproducibility} onChange={v => set('reproducibility', v)} label="⑧ 再現性・継続性" description="プロセス・仕組みとして説明でき今後も再現可能" />
           <Toggle value={data.roleAchievement} onChange={v => set('roleAchievement', v)} label="⑨ 役割に対する達成度" description="立場・役割・等級として期待された水準を満たしている" />
           <Toggle value={data.difficulty} onChange={v => set('difficulty', v)} label="⑩ 負荷・難易度" description="人員不足・逆風など高い難易度の中で成果を出した" />
-          <Toggle value={data.mgmtEval} onChange={v => set('mgmtEval', v)} label="⑪ 経営評価" description="①〜⑩踏まえ、ボーナス支給が会社・組織・将来にとって妥当" />
+          <Toggle
+            value={data.mgmtEval}
+            onChange={v => set('mgmtEval', v)}
+            label={`⑪ 経営評価${data.noSupervisor ? '（上司不在のため重み2倍）' : ''}`}
+            description="①〜⑩踏まえ、ボーナス支給が会社・組織・将来にとって妥当。⑥（直属上司評価）が存在しない場合、本項目は重み2倍として扱う"
+          />
         </div>
       </div>
 
