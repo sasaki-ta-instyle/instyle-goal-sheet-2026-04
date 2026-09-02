@@ -3,10 +3,11 @@ import "./globals.css";
 
 const SITE_URL = "https://app.instyle.group/instyle-goal-sheet-2026-04";
 const ASSETS = "https://app.instyle.group/_shared/static";
-const TITLE = "目標設定シート | INSTYLE GROUP";
+const TITLE = "目標設定シート 2026年4月-9月期 | INSTYLE GROUP";
 const DESCRIPTION = "INSTYLE GROUP 目標設定フォーム — 入力内容をシェア用URLで共有します";
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: false, nocache: true },
   metadataBase: new URL(SITE_URL),
   title: TITLE,
   description: DESCRIPTION,

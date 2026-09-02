@@ -73,8 +73,8 @@ export default function ShareView({ data }: { data: FormData }) {
     const prev = document.title;
     const name = (cover.name ?? '').trim();
     document.title = name
-      ? `${name} | 目標設定シート | INSTYLE GROUP`
-      : '目標設定シート | INSTYLE GROUP';
+      ? `${name} | 目標設定シート 2026年4月-9月期 | INSTYLE GROUP`
+      : '目標設定シート 2026年4月-9月期 | INSTYLE GROUP';
     return () => { document.title = prev; };
   }, [cover.name]);
 

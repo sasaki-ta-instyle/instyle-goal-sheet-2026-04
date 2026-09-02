@@ -10,10 +10,10 @@ export async function generateMetadata({ params }: { params: Promise<{ token: st
     const { token } = await params;
     const raw = await readShare(token);
     const name = ((raw as { cover?: { name?: string } } | null)?.cover?.name ?? '').trim();
-    if (!name) return { title: '目標設定シート | INSTYLE GROUP' };
-    return { title: `${name} | 目標設定シート | INSTYLE GROUP` };
+    if (!name) return { title: '目標設定シート 2026年4月-9月期 | INSTYLE GROUP' };
+    return { title: `${name} | 目標設定シート 2026年4月-9月期 | INSTYLE GROUP` };
   } catch {
-    return { title: '目標設定シート | INSTYLE GROUP' };
+    return { title: '目標設定シート 2026年4月-9月期 | INSTYLE GROUP' };
   }
 }
 
