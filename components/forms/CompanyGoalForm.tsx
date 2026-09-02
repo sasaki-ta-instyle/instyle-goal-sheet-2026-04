@@ -62,9 +62,9 @@ const computeMargin = (profit: string, revenue: string): string => {
 };
 
 const NUM_COLS: { key: keyof KpiNumRow; label: string; sub: string; numeric?: boolean }[] = [
-  { key: 'prev', label: '前期実績（円）', sub: '2025.10〜2026.3', numeric: true },
-  { key: 'target', label: '今期目標（円）', sub: '2026.4〜9', numeric: true },
-  { key: 'actual', label: '今期実績（円）', sub: '2026.4〜9', numeric: true },
+  { key: 'prev', label: '前期実績（円）', sub: '2025年10月-2026年3月期', numeric: true },
+  { key: 'target', label: '今期目標（円）', sub: '2026年4月-9月期', numeric: true },
+  { key: 'actual', label: '今期実績（円）', sub: '2026年4月-9月期', numeric: true },
 ];
 
 function KpiNumTable({

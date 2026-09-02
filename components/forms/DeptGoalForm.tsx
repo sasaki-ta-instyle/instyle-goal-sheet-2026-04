@@ -38,9 +38,9 @@ function TI({ value, onChange, placeholder, autoNumber, compact }: { value: stri
 }
 
 const KPI_COLS: { key: 'prev' | 'target' | 'actual'; label: string; sub: string; autoNumber?: boolean }[] = [
-  { key: 'prev', label: '前期実績', sub: '2025.10〜2026.3', autoNumber: true },
-  { key: 'target', label: '今期目標', sub: '2026.4〜9', autoNumber: true },
-  { key: 'actual', label: '今期実績', sub: '2026.4〜9', autoNumber: true },
+  { key: 'prev', label: '前期実績', sub: '2025年10月-2026年3月期', autoNumber: true },
+  { key: 'target', label: '今期目標', sub: '2026年4月-9月期', autoNumber: true },
+  { key: 'actual', label: '今期実績', sub: '2026年4月-9月期', autoNumber: true },
 ];
 
 export default function DeptGoalForm({ data, onChange, companyStrategicFocus }: Props) {
