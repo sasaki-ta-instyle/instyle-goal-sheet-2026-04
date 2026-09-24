@@ -27,7 +27,11 @@ function calcGrowth(prev: string, actual: string): string {
   const p = parseFloat(prev.replace(/,/g, ''));
   const a = parseFloat(actual.replace(/,/g, ''));
   if (!prev || !actual || isNaN(p) || isNaN(a) || p === 0) return '—';
-  const val = Math.round((a / p - 1) * 100);
+  // 赤字 → 黒字 / 黒字 → 赤字 は成長率という概念になじまないので専用ラベル
+  if (p < 0 && a >= 0) return '黒字転換';
+  if (p > 0 && a < 0) return '赤字転落';
+  // 前期がマイナスのままなら「絶対値ベース」で符号がひっくり返らないように
+  const val = Math.round(((a - p) / Math.abs(p)) * 100);
   return `${val > 0 ? '+' : ''}${val}%`;
 }
 
