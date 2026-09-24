@@ -23,7 +23,7 @@ function calcGrowth(prev: string, actual: string): string {
   if (!prev || !actual || isNaN(p) || isNaN(a) || p === 0) return '—';
   // 分母を絶対値にして、前期がマイナス（赤字）でも改善は +、悪化は - で素直に出す。
   const val = Math.round(((a - p) / Math.abs(p)) * 100);
-  return `${val > 0 ? '+' : ''}${val}%`;
+  return `${val > 0 ? '+' : ''}${val}pt`;
 }
 
 function TI({ value, onChange, placeholder, autoNumber, compact }: { value: string; onChange: (v: string) => void; placeholder?: string; autoNumber?: boolean; compact?: boolean }) {
@@ -169,7 +169,7 @@ export default function DeptGoalForm({ data, onChange, companyStrategicFocus }: 
                   {c.sub && <span style={{ display: 'block', fontWeight: 400, fontSize: '.7rem', opacity: 0.7, whiteSpace: 'nowrap' }}>{c.sub}</span>}
                 </th>
               ))}
-              <th style={{ whiteSpace: 'nowrap' }}>成長率（％）</th>
+              <th style={{ whiteSpace: 'nowrap' }}>成長率（ポイント）</th>
             </tr>
           </thead>
           <tbody>

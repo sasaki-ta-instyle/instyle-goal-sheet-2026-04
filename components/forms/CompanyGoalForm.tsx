@@ -29,7 +29,7 @@ function calcGrowth(prev: string, actual: string): string {
   if (!prev || !actual || isNaN(p) || isNaN(a) || p === 0) return '—';
   // 分母を絶対値にして、前期がマイナス（赤字）でも改善は +、悪化は - で素直に出す。
   const val = Math.round(((a - p) / Math.abs(p)) * 100);
-  return `${val > 0 ? '+' : ''}${val}%`;
+  return `${val > 0 ? '+' : ''}${val}pt`;
 }
 
 function TI({ value, onChange, placeholder, numeric, readOnly }: { value: string; onChange: (v: string) => void; placeholder?: string; numeric?: boolean; readOnly?: boolean }) {
@@ -94,7 +94,7 @@ function KpiNumTable({
                 {c.sub && <span style={{ display: 'block', fontWeight: 400, fontSize: '.7rem', opacity: 0.7 }}>{c.sub}</span>}
               </th>
             ))}
-            <th>成長率<span style={{ display: 'block' }}>（％）</span></th>
+            <th>成長率<span style={{ display: 'block' }}>（ポイント）</span></th>
           </tr>
         </thead>
         <tbody>
