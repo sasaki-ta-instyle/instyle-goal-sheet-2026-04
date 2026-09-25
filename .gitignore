@@ -47,3 +47,9 @@ next-env.d.ts
 
 # conversation logs
 _conversation-logs/
+
+# Dropbox conflict artifacts (never commit)
+node_modules 2/
+.next 2/
+_conversation-logs 2/
+_dot-git-2-broken-*/
