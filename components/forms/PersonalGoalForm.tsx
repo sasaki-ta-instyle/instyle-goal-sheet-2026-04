@@ -82,7 +82,7 @@ export default function PersonalGoalForm({ data, onChange }: Props) {
   };
   return (
     <div>
-      <p className="section-title">04｜個人目標 記入シート</p>
+      <p className="section-title">03｜個人目標 記入シート</p>
 
       <p style={{ fontSize: '.8125rem', fontWeight: 600, marginBottom: 12 }}>① 現在地の確認</p>
       <div className="table-wrap" style={{ marginBottom: 24 }}>

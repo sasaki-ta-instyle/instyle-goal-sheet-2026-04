@@ -38,7 +38,7 @@ export default function CommitmentForm({ data, grade, onChange }: Props) {
 
   return (
     <div>
-      <p className="section-title">05｜ギャランティ 記入シート</p>
+      <p className="section-title">04｜ギャランティ 記入シート</p>
 
       <p style={{ fontSize: '.75rem', color: 'var(--color-text-muted)', marginBottom: 8, lineHeight: 1.6 }}>
         経営はお金でお金を買うこと。報酬は申告するものではなく、あなたが<strong>バリューを出す約束をした分だけ保証されるもの</strong>であり、成長し、達成した結果、獲得するものです。

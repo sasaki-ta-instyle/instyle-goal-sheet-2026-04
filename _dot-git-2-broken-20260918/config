@@ -1,0 +1,17 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[user]
+	email = sasaki-ta@instyle.group
+	name = Sasaki Takeshi
+[remote "origin"]
+	url = https://github.com/sasaki-ta-instyle/instyle-goal-sheet-2026-04.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+	vscode-merge-base = origin/main

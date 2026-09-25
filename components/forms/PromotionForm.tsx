@@ -96,7 +96,7 @@ export default function PromotionForm({ data, onChange }: Props) {
 
   return (
     <div>
-      <p className="section-title">07｜昇格・昇給 採点シート</p>
+      <p className="section-title">06｜昇格・昇給 採点シート</p>
       <p style={{ fontSize: '.8125rem', color: 'var(--color-text-muted)', marginBottom: 28 }}>
         評価期間ごとに実施。合計11ポイント以上で昇格・昇給対象。
       </p>

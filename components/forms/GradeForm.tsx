@@ -15,7 +15,7 @@ export default function GradeForm({ selectedGrade, expectations, onChange }: Pro
 
   return (
     <div>
-      <p className="section-title">06｜グレード表</p>
+      <p className="section-title">05｜グレード表</p>
       <p style={{ fontSize: '.8125rem', color: 'var(--color-text-muted)', marginBottom: 24 }}>
         各グレードに求める目安を入力してください。カバーで選択したグレードをハイライト表示します。
       </p>

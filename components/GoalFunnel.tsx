@@ -19,10 +19,9 @@ interface TierMeta {
 }
 
 const TIERS: TierMeta[] = [
-  { step: 2, label: 'グループ' },
-  { step: 3, label: '会社' },
-  { step: 4, label: '部署' },
-  { step: 5, label: '個人' },
+  { step: 2, label: '会社' },
+  { step: 3, label: '部署' },
+  { step: 4, label: '個人' },
 ];
 
 export default function GoalFunnel({ formData, currentStep }: Props) {
@@ -33,10 +32,9 @@ export default function GoalFunnel({ formData, currentStep }: Props) {
 
   // 入力済みの内容だけ表示。未入力ならプレースホルダーは出さない。
   const summaries: Record<number, string> = {
-    2: truncate(formData.group.strategicFocus, 76),
-    3: truncate(formData.company.strategicFocus, 76),
-    4: truncate(formData.dept.mission || formData.dept.kgi1.kgi || formData.dept.kgi1.mission, 76),
-    5: truncate(personalSummary, 76),
+    2: truncate(formData.company.strategicFocus, 76),
+    3: truncate(formData.dept.mission || formData.dept.kgi1.kgi || formData.dept.kgi1.mission, 76),
+    4: truncate(personalSummary, 76),
   };
 
   return (

@@ -1,0 +1,3 @@
+add noindex robots meta to layout.tsx
+
+sasaki / team / mebius workspace の全 HTML 制作物に <meta name="robots" content="noindex, nofollow, noarchive"> を既定で入れるルール (workspace/CLAUDE.md の「HTML noindex — 全制作物のデフォ設定」節) に沿った対応。Next.js Metadata の robots フィールドで noindex/nofollow/nocache を設定。

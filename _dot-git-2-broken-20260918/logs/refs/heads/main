@@ -1,0 +1,29 @@
+0000000000000000000000000000000000000000 3ee0e2083326ae2402f31023f41b277af9a94167 Sasaki Takeshi <sasaki-ta@instyle.group> 1779716442 +0900	commit (initial): initial: 上期版 (2026.4〜9) — 下期版 instyle-goal-sheet-2026-10 からの複製＋上期化
+3ee0e2083326ae2402f31023f41b277af9a94167 a7cca62031d3107ba15fac4eaee41147a0742210 Sasaki Takeshi <sasaki-ta@instyle.group> 1779716850 +0900	commit: fix: グループ/会社目標の前期実績は入力可能に戻す（2025.10〜2026.3）
+a7cca62031d3107ba15fac4eaee41147a0742210 9b886acb99a681d5e1c496af959bd07147256b27 Sasaki Takeshi <sasaki-ta@instyle.group> 1779716927 +0900	commit: fix: 部署目標の前期実績も入力可能に戻す（2025.10〜2026.3）
+9b886acb99a681d5e1c496af959bd07147256b27 3d10a65cfffb26c69514031e0ed8e3fb355623f3 Sasaki Takeshi <sasaki-ta@instyle.group> 1779753506 +0900	commit: feat(share): ヘッダーにアンカーリンクと PDF書き出しボタン（下期版から反映）
+3d10a65cfffb26c69514031e0ed8e3fb355623f3 8686478c153888c7b1955a1dce8dd319116b059d Sasaki Takeshi <sasaki-ta@instyle.group> 1779753792 +0900	commit: fix(share): PDFボタン控えめ化 / カバー→トップ / アンカー中央寄せ（下期版から反映）
+8686478c153888c7b1955a1dce8dd319116b059d 6669dc33f19eedf78cfd1037fcbbff8eaf308cc8 Sasaki Takeshi <sasaki-ta@instyle.group> 1779754254 +0900	commit: feat(share): スクロール現在地ハイライト（下期版から反映）
+6669dc33f19eedf78cfd1037fcbbff8eaf308cc8 9922b68b850c6b869e38acd8750de621925ef9b6 Sasaki Takeshi <sasaki-ta@instyle.group> 1779754501 +0900	commit: fix(share): Read Only ラベルの控えめ化（下期版から反映）
+9922b68b850c6b869e38acd8750de621925ef9b6 1ed486ec99121785fd8820bc40dc58d94280cbc9 Sasaki Takeshi <sasaki-ta@instyle.group> 1779754798 +0900	commit: fix(share): Read Only ラベル削除（下期版から反映）
+1ed486ec99121785fd8820bc40dc58d94280cbc9 31310bff56054e8bbaa826d756d06abcfba65c33 Sasaki Takeshi <sasaki-ta@instyle.group> 1779758902 +0900	commit: feat(share): PDFボタン廃止＋上長コメント新URL発行フロー（下期版から反映）
+31310bff56054e8bbaa826d756d06abcfba65c33 9aa90e35405306146147c70847eccc386f38c399 Sasaki Takeshi <sasaki-ta@instyle.group> 1779760004 +0900	commit: fix(share): finalized で上長コメント編集パネルを隠す（下期版から反映）
+9aa90e35405306146147c70847eccc386f38c399 42117fa194331a27140cd796669695fad20a2c49 Sasaki Takeshi <sasaki-ta@instyle.group> 1779760110 +0900	commit: feat(personal): ④上長からの一言 に運用説明追記（下期版から反映）
+42117fa194331a27140cd796669695fad20a2c49 db841b75674fa62f48156d4116b43d16a31a5652 Sasaki Takeshi <sasaki-ta@instyle.group> 1779761051 +0900	commit: fix(personal): ④上長からの一言 説明文簡潔化（下期版から反映）
+db841b75674fa62f48156d4116b43d16a31a5652 e8696f07ea5bcf9c8aa6db43b03068085de5dad9 Sasaki Takeshi <sasaki-ta@instyle.group> 1779769945 +0900	commit: fix(personal): SL理論リンク変更（下期版から反映）
+e8696f07ea5bcf9c8aa6db43b03068085de5dad9 427a24bf194c8976a9ddd964c3af7eef797f1a2e Sasaki Takeshi <sasaki-ta@instyle.group> 1779781317 +0900	commit: fix(ui): データを保存→データを書き出す（下期版から反映）
+427a24bf194c8976a9ddd964c3af7eef797f1a2e 7b44f9278f28d2d9190ddeed1353c5a6f5a0ee5e Sasaki Takeshi <sasaki-ta@instyle.group> 1779781446 +0900	commit: feat(share): URL先タイトルに氏名を含める（下期版から反映）
+7b44f9278f28d2d9190ddeed1353c5a6f5a0ee5e 5dc3d72d54a8f0eab71298e7f6c6c3069078b8fb Sasaki Takeshi <sasaki-ta@instyle.group> 1779782992 +0900	commit: feat: 部署目標を書き出す & 部分インポート対応（下期版から反映）
+5dc3d72d54a8f0eab71298e7f6c6c3069078b8fb aff4fa9616e96fe4ee357332645492fd8d15b3f2 Sasaki Takeshi <sasaki-ta@instyle.group> 1779785927 +0900	commit: fix: ヘッダー期表記を2026.4〜9に修正（cp上書きで再混入していた）
+aff4fa9616e96fe4ee357332645492fd8d15b3f2 fdf6542f04703efc8f6b2b4f0b2bc8d936487fb9 Sasaki Takeshi <sasaki-ta@instyle.group> 1779790434 +0900	commit: fix(dept): KPI表の列幅調整＋上期版の期表記再修正
+fdf6542f04703efc8f6b2b4f0b2bc8d936487fb9 90e33f5534259751ba1a3e44469d4f4633b9a7d2 Sasaki Takeshi <sasaki-ta@instyle.group> 1779790560 +0900	commit: fix(dept): KPI表の数値列をさらに狭める（下期版から反映）
+90e33f5534259751ba1a3e44469d4f4633b9a7d2 1162914e1f2d96ed497ea6cf087e01546a867222 Sasaki Takeshi <sasaki-ta@instyle.group> 1779790779 +0900	commit: fix(dept): KPI表 指標名列固定（下期版から反映）
+1162914e1f2d96ed497ea6cf087e01546a867222 c160e109ad2a92bf7ab45fc950893db9f351a1ae Sasaki Takeshi <sasaki-ta@instyle.group> 1779790980 +0900	commit: fix(dept): 数値列幅揃え＆指標名flex（下期版から反映）
+c160e109ad2a92bf7ab45fc950893db9f351a1ae f8962edc30fae2949e6764c961232f26d5733cf0 Sasaki Takeshi <sasaki-ta@instyle.group> 1779791120 +0900	commit: fix(dept): 列幅を100pxに（下期版から反映）
+f8962edc30fae2949e6764c961232f26d5733cf0 187d00812fae738518c011cd183ae1ce8513df9b Sasaki Takeshi <sasaki-ta@instyle.group> 1779791250 +0900	commit: fix(dept): 列幅120（下期版から反映）
+187d00812fae738518c011cd183ae1ce8513df9b fb37ebcfdb04d6d735d6e202c488227fa938ea9e Sasaki Takeshi <sasaki-ta@instyle.group> 1779843083 +0900	commit: feat(share): URL自動リンク化（下期版から反映）
+fb37ebcfdb04d6d735d6e202c488227fa938ea9e aa623fa416505cf86afbd64f2f67d921595a1120 Sasaki Takeshi <sasaki-ta@instyle.group> 1779850227 +0900	commit: feat(ui): ヘッダ右上4ボタンにホバー状態追加（下期版から反映）
+aa623fa416505cf86afbd64f2f67d921595a1120 effdeb20b58ef90988882a5bb7278cf068ab115e Sasaki Takeshi <sasaki-ta@instyle.group> 1779853141 +0900	commit: fix(confirm): 確認サマリーの「個人目標数」を「ギャランティ合計」に置換（下期版から反映）
+effdeb20b58ef90988882a5bb7278cf068ab115e 590954e210579e183612dcd40572046223bf802c Sasaki Takeshi <sasaki-ta@instyle.group> 1782206886 +0900	commit: fix: ボーナス pt 合計を全 11 項目 (Phase 1 + Phase 2) に修正
+590954e210579e183612dcd40572046223bf802c 7e6ad0b4f3e2a5f23d2dc1ef9b6478edb516fafd Sasaki Takeshi <sasaki-ta@instyle.group> 1782207466 +0900	commit: fix: 上司不在時の重み付けを ⑥→⑪ に修正
+7e6ad0b4f3e2a5f23d2dc1ef9b6478edb516fafd dad04c4bc33239fb7054c1b90df68c3761b5debc Sasaki Takeshi <sasaki-ta@instyle.group> 1785761999 +0900	commit: add noindex robots meta to layout.tsx

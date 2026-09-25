@@ -83,7 +83,7 @@ export default function BonusForm({ data, onChange }: Props) {
 
   return (
     <div>
-      <p className="section-title">08｜ボーナス評価 採点シート</p>
+      <p className="section-title">07｜ボーナス評価 採点シート</p>
       <p style={{ fontSize: '.8125rem', color: 'var(--color-text-muted)', marginBottom: 28 }}>
         評価期間において所属4ヶ月以上が対象。各項目をクリックして採点してください。
       </p>

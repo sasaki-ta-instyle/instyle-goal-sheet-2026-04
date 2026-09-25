@@ -16,7 +16,6 @@ const noop = () => {};
 
 const SECTIONS = [
   { id: 'top', label: 'トップ' },
-  { id: 'group', label: 'グループ目標' },
   { id: 'company', label: '会社目標' },
   { id: 'dept', label: '部署目標' },
   { id: 'personal', label: '個人目標' },
@@ -269,15 +268,12 @@ export default function ShareView({ data }: { data: FormData }) {
         <main className="share-view" style={{ maxWidth: 1080, margin: '0 auto', padding: '24px 24px 80px' }}>
           <fieldset disabled style={{ border: 'none', padding: 0, margin: 0, minWidth: 0 }}>
             <Section id="cover"><CoverForm data={data.cover} onChange={noop} /></Section>
-            <Section id="group"><CompanyGoalForm data={data.group} onChange={noop} title="01｜グループ目標 記入シート" labelPrefix="グループ" /></Section>
             <Section id="company">
               <CompanyGoalForm
                 data={data.company}
                 onChange={noop}
-                title="02｜会社目標 記入シート"
+                title="01｜会社目標 記入シート"
                 labelPrefix="会社"
-                parentStrategicFocus={data.group.strategicFocus}
-                parentLabelPrefix="グループ"
               />
             </Section>
             <Section id="dept"><DeptGoalForm data={data.dept} onChange={noop} companyStrategicFocus={data.company.strategicFocus} /></Section>

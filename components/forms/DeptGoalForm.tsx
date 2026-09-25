@@ -17,15 +17,6 @@ const autoComma = (v: string) => {
   return parts.join('.');
 };
 
-function calcGrowth(prev: string, actual: string): string {
-  const p = parseFloat(prev.replace(/,/g, ''));
-  const a = parseFloat(actual.replace(/,/g, ''));
-  if (!prev || !actual || isNaN(p) || isNaN(a) || p === 0) return '—';
-  // 分母を絶対値にして、前期がマイナス（赤字）でも改善は +、悪化は - で素直に出す。
-  const val = Math.round(((a - p) / Math.abs(p)) * 100);
-  return `${val > 0 ? '+' : ''}${val}pt`;
-}
-
 function TI({ value, onChange, placeholder, autoNumber, compact }: { value: string; onChange: (v: string) => void; placeholder?: string; autoNumber?: boolean; compact?: boolean }) {
   return (
     <input
@@ -38,8 +29,7 @@ function TI({ value, onChange, placeholder, autoNumber, compact }: { value: stri
   );
 }
 
-const KPI_COLS: { key: 'prev' | 'target' | 'actual'; label: string; sub: string; autoNumber?: boolean }[] = [
-  { key: 'prev', label: '前期実績', sub: '2025年10月-2026年3月期', autoNumber: true },
+const KPI_COLS: { key: 'target' | 'actual'; label: string; sub: string; autoNumber?: boolean }[] = [
   { key: 'target', label: '今期目標', sub: '2026年4月-9月期', autoNumber: true },
   { key: 'actual', label: '今期実績', sub: '2026年4月-9月期', autoNumber: true },
 ];
@@ -77,7 +67,7 @@ export default function DeptGoalForm({ data, onChange, companyStrategicFocus }: 
 
   return (
     <div>
-      <p className="section-title">03｜部署目標 記入シート</p>
+      <p className="section-title">02｜部署目標 記入シート</p>
 
       <p style={{ fontSize: '.8125rem', fontWeight: 600, marginBottom: 12 }}>① 上位目標との接続</p>
       <div className="form-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 28 }}>
@@ -154,10 +144,8 @@ export default function DeptGoalForm({ data, onChange, companyStrategicFocus }: 
           <colgroup>
             <col style={{ width: 130 }} />
             <col />
-            <col style={{ width: 120 }} />
-            <col style={{ width: 120 }} />
-            <col style={{ width: 120 }} />
-            <col style={{ width: 120 }} />
+            <col style={{ width: 140 }} />
+            <col style={{ width: 140 }} />
           </colgroup>
           <thead>
             <tr>
@@ -169,7 +157,6 @@ export default function DeptGoalForm({ data, onChange, companyStrategicFocus }: 
                   {c.sub && <span style={{ display: 'block', fontWeight: 400, fontSize: '.7rem', opacity: 0.7, whiteSpace: 'nowrap' }}>{c.sub}</span>}
                 </th>
               ))}
-              <th style={{ whiteSpace: 'nowrap' }}>成長率（ポイント）</th>
             </tr>
           </thead>
           <tbody>
@@ -214,9 +201,6 @@ export default function DeptGoalForm({ data, onChange, companyStrategicFocus }: 
                       />
                     </td>
                   ))}
-                  <td style={{ textAlign: 'center', fontWeight: 600, fontSize: '.875rem', color: 'var(--color-text-muted)', whiteSpace: 'nowrap' }}>
-                    {calcGrowth(data[item.key].prev, data[item.key].actual)}
-                  </td>
                 </tr>
             ))}
           </tbody>
