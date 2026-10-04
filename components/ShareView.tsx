@@ -25,7 +25,7 @@ const SECTIONS = [
   { id: 'bonus', label: 'ボーナス評価' },
 ];
 
-export default function ShareView({ data }: { data: FormData }) {
+export default function ShareView({ data, token }: { data: FormData; token?: string }) {
   const cover = data.cover;
   const [activeId, setActiveId] = useState<string>('top');
   const [comment, setComment] = useState<string>(data.personal.supervisorComment ?? '');
@@ -34,14 +34,46 @@ export default function ShareView({ data }: { data: FormData }) {
   const [publishedCopied, setPublishedCopied] = useState(false);
   const [publishError, setPublishError] = useState('');
 
+  // 06/07 だけ上長・オーナーが共有URL上で編集して同一トークンに上書き保存できる。
+  // 01-05 は従来通り fieldset disabled で読み取り専用。
+  const [editable, setEditable] = useState<FormData>(data);
+  const [saving, setSaving] = useState(false);
+  const [saveState, setSaveState] = useState<'idle' | 'saved' | 'error'>('idle');
+  const [saveError, setSaveError] = useState('');
+  const canEditScoreSheets = Boolean(token);
+
+  const handleSave = async () => {
+    if (!token) return;
+    setSaving(true);
+    setSaveState('idle');
+    setSaveError('');
+    try {
+      const base = baseFromPathname(window.location.pathname);
+      const res = await fetch(`${base}/api/share/${token}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editable),
+      });
+      if (!res.ok) throw new Error(`status ${res.status}`);
+      setSaveState('saved');
+      setTimeout(() => setSaveState(s => (s === 'saved' ? 'idle' : s)), 2400);
+    } catch (e) {
+      console.error(e);
+      setSaveState('error');
+      setSaveError('保存に失敗しました。時間をおいて再度お試しください。');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const handlePublish = async () => {
     setPublishing(true);
     setPublishError('');
     setPublishedCopied(false);
     try {
       const next: FormData = {
-        ...data,
-        personal: { ...data.personal, supervisorComment: comment },
+        ...editable,
+        personal: { ...editable.personal, supervisorComment: comment },
         finalized: true,
       };
       const base = baseFromPathname(window.location.pathname);
@@ -280,9 +312,59 @@ export default function ShareView({ data }: { data: FormData }) {
             <Section id="personal"><PersonalGoalForm data={data.personal} onChange={noop} /></Section>
             <Section id="commitment"><CommitmentForm data={data.personal} grade={data.cover.grade} onChange={noop} /></Section>
             <Section id="grade"><GradeForm selectedGrade={data.cover.grade} expectations={data.gradeExpectations} onChange={noop} /></Section>
-            <Section id="promotion"><PromotionForm data={data.promotion} onChange={noop} /></Section>
-            <Section id="bonus"><BonusForm data={data.bonus} onChange={noop} /></Section>
           </fieldset>
+
+          {/* 06/07 は上長・オーナー編集可（短URL経由のみ） */}
+          <Section id="promotion">
+            <PromotionForm
+              data={editable.promotion}
+              onChange={canEditScoreSheets ? next => setEditable(d => ({ ...d, promotion: next })) : noop}
+            />
+          </Section>
+          <Section id="bonus">
+            <BonusForm
+              data={editable.bonus}
+              onChange={canEditScoreSheets ? next => setEditable(d => ({ ...d, bonus: next })) : noop}
+            />
+          </Section>
+
+          {canEditScoreSheets && (
+            <section
+              id="save-score-sheets"
+              className="glass-panel"
+              style={{
+                marginTop: 20,
+                padding: '18px 20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 14,
+                flexWrap: 'wrap',
+              }}
+            >
+              <div style={{ flex: '1 1 auto', minWidth: 0 }}>
+                <p style={{ fontSize: '.8125rem', fontWeight: 600, color: 'var(--color-text)', marginBottom: 2 }}>
+                  06 昇格・昇給 / 07 ボーナス 採点シートを保存
+                </p>
+                <p style={{ fontSize: '.75rem', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>
+                  上の 2 シートの入力内容は、保存ボタンを押すと同じ URL に上書きされます。01〜05 は変更されません。
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={saving}
+                className="btn btn-primary"
+                style={{ fontSize: '.8125rem', flexShrink: 0 }}
+              >
+                {saving ? '保存中…' : saveState === 'saved' ? '✓ 保存しました' : '💾 06/07 を保存'}
+              </button>
+              {saveState === 'error' && (
+                <span style={{ fontSize: '.75rem', color: 'var(--color-error)', flexBasis: '100%' }}>
+                  {saveError}
+                </span>
+              )}
+            </section>
+          )}
 
           {!data.finalized && (
           <section

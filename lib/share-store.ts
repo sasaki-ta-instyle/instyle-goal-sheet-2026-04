@@ -51,3 +51,22 @@ export async function readShare(token: string): Promise<unknown | null> {
     throw err;
   }
 }
+
+export type UpdateShareResult = 'ok' | 'not-found' | 'invalid-token';
+
+// 既存トークンのファイルを payload で上書きする。新規作成はしない。
+// 06/07（上長・オーナー採点）だけ編集可にする共有URL上書き保存のための経路。
+export async function updateShare(token: string, payload: unknown): Promise<UpdateShareResult> {
+  const safe = safeTokenOrNull(token);
+  if (!safe) return 'invalid-token';
+  const fp = path.join(storeDir(), `${safe}.json`);
+  try {
+    await fs.access(fp);
+  } catch (e) {
+    const err = e as NodeJS.ErrnoException;
+    if (err.code === 'ENOENT') return 'not-found';
+    throw err;
+  }
+  await fs.writeFile(fp, JSON.stringify(payload));
+  return 'ok';
+}

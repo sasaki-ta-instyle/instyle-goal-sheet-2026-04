@@ -47,5 +47,5 @@ export default async function ShareByTokenPage({ params }: { params: Promise<{ t
   if (!data) {
     return <ShareError message="シェアリンクが見つかりませんでした。発行者に再度生成してもらってください。" />;
   }
-  return <ShareView data={data} />;
+  return <ShareView data={data} token={token} />;
 }
