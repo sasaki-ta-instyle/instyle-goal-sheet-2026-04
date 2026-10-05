@@ -31,7 +31,8 @@ export default function OwnerUrlPill({
 
   if (!url) return null;
 
-  const label = finalized ? '最終オーナー URL' : '共有URL';
+  void finalized;
+  const label = 'ブラウザで見る';
 
   return (
     <a

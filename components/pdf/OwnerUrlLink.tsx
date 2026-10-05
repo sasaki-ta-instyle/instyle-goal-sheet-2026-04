@@ -36,7 +36,9 @@ export default function OwnerUrlLink({
 
   if (!url) return null;
 
-  const label = finalized ? '最終オーナー URL（オンライン版）' : '共有URL（オンライン版）';
+  // finalized の有無に関わらず「ブラウザで見る」の一本化（オーナー・上長・本人すべて共通）。
+  void finalized;
+  const label = 'ブラウザで見る';
 
   return (
     <div className="pdf-owner-url">
