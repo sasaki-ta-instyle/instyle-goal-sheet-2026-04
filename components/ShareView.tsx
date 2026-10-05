@@ -99,7 +99,7 @@ export default function ShareView({ data, token, encoded }: { data: FormData; to
       if (!res.ok) throw new Error(`status ${res.status}`);
       const { token } = (await res.json()) as { token?: string };
       if (!token) throw new Error('no token');
-      const url = buildShortShareUrl(window.location.origin, window.location.pathname, token);
+      const url = buildShortShareUrl(window.location.origin, window.location.pathname, token, cover.name);
       setPublishedUrl(url);
       try {
         await navigator.clipboard.writeText(url);
@@ -234,9 +234,23 @@ export default function ShareView({ data, token, encoded }: { data: FormData; to
                 }}
               >
                 目標設定シート（閲覧）
-                <span style={{ fontSize: '.875rem', fontWeight: 400, opacity: 0.6, marginLeft: 10 }}>
-                  {cover.period || ''}
-                </span>
+                {cover.period && (
+                  <span
+                    style={{
+                      fontSize: '.9rem',
+                      fontWeight: 500,
+                      marginLeft: 10,
+                      padding: '3px 12px',
+                      borderRadius: 999,
+                      background: 'rgba(206, 93, 151, 0.32)',
+                      color: 'var(--color-text-inv)',
+                      letterSpacing: '.01em',
+                      verticalAlign: 'middle',
+                    }}
+                  >
+                    {cover.period}
+                  </span>
+                )}
               </h1>
               <p style={{ fontSize: '.8125rem', color: 'rgba(243,241,238,.55)' }}>
                 {cover.company || '所属法人 未入力'}　／　{cover.name || '氏名 未入力'}　／　グレード {cover.grade || '—'}

@@ -11,10 +11,26 @@ import './pdf.css';
 
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = {
-  robots: { index: false, follow: false, nocache: true },
-  title: 'PDF 出力 | 目標設定シート 2026年4月-9月期',
-};
+// Chrome の「PDFとして保存」はデフォルト保存ファイル名として document.title を使う。
+// title を「<氏名>_目標設定シート_2026年4月-9月期」に整えて、氏名入り .pdf が
+// 落ちるようにする（氏名未入力時は従来通りのタイトル）。
+export async function generateMetadata({ params }: { params: Promise<{ token: string }> }): Promise<Metadata> {
+  const base = '目標設定シート_2026年4月-9月期';
+  try {
+    const { token } = await params;
+    const raw = await readShare(token);
+    const name = ((raw as { cover?: { name?: string } } | null)?.cover?.name ?? '').trim();
+    return {
+      robots: { index: false, follow: false, nocache: true },
+      title: name ? `${name}_${base}` : base,
+    };
+  } catch {
+    return {
+      robots: { index: false, follow: false, nocache: true },
+      title: base,
+    };
+  }
+}
 
 export default async function PdfByTokenPage({
   params,
@@ -46,8 +62,8 @@ export default async function PdfByTokenPage({
       <PdfHint />
       <PdfDocument
         data={data}
-        ownerUrlSlot={<OwnerUrlLink token={token} finalized={data.finalized === true} />}
-        ownerUrlPill={<OwnerUrlPill token={token} finalized={data.finalized === true} />}
+        ownerUrlSlot={<OwnerUrlLink token={token} name={data.cover.name} />}
+        ownerUrlPill={<OwnerUrlPill token={token} name={data.cover.name} />}
       />
       <BudouxApply />
       {print === '1' && <PrintOnLoad />}

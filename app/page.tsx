@@ -229,7 +229,7 @@ export default function Home() {
       if (res.ok) {
         const { token } = (await res.json()) as { token?: string };
         if (token) {
-          url = buildShortShareUrl(window.location.origin, window.location.pathname, token);
+          url = buildShortShareUrl(window.location.origin, window.location.pathname, token, formData.cover.name);
         }
       }
     } catch {
@@ -237,7 +237,7 @@ export default function Home() {
     }
     if (!url) {
       const encoded = encodeFormData(formData);
-      url = buildLongShareUrl(window.location.origin, window.location.pathname, encoded);
+      url = buildLongShareUrl(window.location.origin, window.location.pathname, encoded, formData.cover.name);
       setShareNotice('このページでは短縮URLが発行できないため、データを埋め込んだ長いURLになっています。本番（app.instyle.group）からは短いURLが発行されます。');
     } else {
       setShareNotice('');

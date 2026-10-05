@@ -5,7 +5,7 @@
 
 'use client';
 
-import { Suspense, useMemo } from 'react';
+import { Suspense, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { decodeFormData } from '@/lib/share-codec';
 import PdfDocument from '@/components/pdf/PdfDocument';
@@ -21,6 +21,16 @@ function PdfShareInner() {
   const encoded = params?.get('d') ?? '';
   const print = params?.get('print') === '1';
   const data = useMemo(() => (encoded ? decodeFormData(encoded) : null), [encoded]);
+
+  // Chrome の「PDFとして保存」の既定ファイル名は document.title なので、氏名入りに揃える。
+  useEffect(() => {
+    if (!data) return;
+    const name = (data.cover.name ?? '').trim();
+    const base = '目標設定シート_2026年4月-9月期';
+    const prev = document.title;
+    document.title = name ? `${name}_${base}` : base;
+    return () => { document.title = prev; };
+  }, [data]);
 
   if (!data) {
     return (
@@ -40,8 +50,8 @@ function PdfShareInner() {
       <PdfHint />
       <PdfDocument
         data={data}
-        ownerUrlSlot={<OwnerUrlLink encoded={encoded} finalized={data.finalized === true} />}
-        ownerUrlPill={<OwnerUrlPill encoded={encoded} finalized={data.finalized === true} />}
+        ownerUrlSlot={<OwnerUrlLink encoded={encoded} name={data.cover.name} />}
+        ownerUrlPill={<OwnerUrlPill encoded={encoded} name={data.cover.name} />}
       />
       <BudouxApply />
       {print && <PrintOnLoad />}

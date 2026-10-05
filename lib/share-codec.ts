@@ -49,10 +49,22 @@ export function baseFromPathname(pathname: string): string {
   return trimmed.replace(/\/(share|s|pdf(\/[^/]+)?|api\/share)(\/.*)?$/, '');
 }
 
-export function buildLongShareUrl(origin: string, pathname: string, encoded: string): string {
-  return `${origin}${baseFromPathname(pathname)}/share?d=${encoded}`;
+// URL の末尾に ?n=<name> / &n=<name> を足す。name は raw CJK を保ったまま載せる
+// （encodeURIComponent すると Slack / メールで %E4%BD%90... と汚れるため）。URL 構文を
+// 壊す ? / & / # / 空白だけ _ に置換する。name 空のときは URL をそのまま返す。
+function appendNameHint(url: string, name?: string): string {
+  if (!name) return url;
+  const trimmed = name.trim();
+  if (!trimmed) return url;
+  const slug = trimmed.replace(/[?&#\s]+/g, '_');
+  const sep = url.includes('?') ? '&' : '?';
+  return `${url}${sep}n=${slug}`;
 }
 
-export function buildShortShareUrl(origin: string, pathname: string, token: string): string {
-  return `${origin}${baseFromPathname(pathname)}/s/${token}`;
+export function buildLongShareUrl(origin: string, pathname: string, encoded: string, name?: string): string {
+  return appendNameHint(`${origin}${baseFromPathname(pathname)}/share?d=${encoded}`, name);
+}
+
+export function buildShortShareUrl(origin: string, pathname: string, token: string, name?: string): string {
+  return appendNameHint(`${origin}${baseFromPathname(pathname)}/s/${token}`, name);
 }

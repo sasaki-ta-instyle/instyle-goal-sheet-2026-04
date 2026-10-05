@@ -10,10 +10,13 @@ import { buildShortShareUrl, buildLongShareUrl } from '@/lib/share-codec';
 export default function OwnerUrlLink({
   token,
   encoded,
+  name,
   finalized,
 }: {
   token?: string;
   encoded?: string;
+  /** URL 末尾に ?n=<name> として載せる人名ヒント（任意）。 */
+  name?: string;
   finalized?: boolean;
 }) {
   const [url, setUrl] = useState('');
@@ -27,12 +30,12 @@ export default function OwnerUrlLink({
     const pathname = window.location.pathname;
     // buildShortShareUrl / buildLongShareUrl 側で baseFromPathname が /pdf も剥がす。
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (token) setUrl(buildShortShareUrl(origin, pathname, token));
+    if (token) setUrl(buildShortShareUrl(origin, pathname, token, name));
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    else if (encoded) setUrl(buildLongShareUrl(origin, pathname, encoded));
+    else if (encoded) setUrl(buildLongShareUrl(origin, pathname, encoded, name));
     // eslint-disable-next-line react-hooks/set-state-in-effect
     else setUrl('');
-  }, [token, encoded]);
+  }, [token, encoded, name]);
 
   if (!url) return null;
 
