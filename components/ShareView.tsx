@@ -25,7 +25,7 @@ const SECTIONS = [
   { id: 'bonus', label: 'ボーナス評価' },
 ];
 
-export default function ShareView({ data, token }: { data: FormData; token?: string }) {
+export default function ShareView({ data, token, encoded }: { data: FormData; token?: string; encoded?: string }) {
   const cover = data.cover;
   const [activeId, setActiveId] = useState<string>('top');
   const [comment, setComment] = useState<string>(data.personal.supervisorComment ?? '');
@@ -41,6 +41,20 @@ export default function ShareView({ data, token }: { data: FormData; token?: str
   const [saveState, setSaveState] = useState<'idle' | 'saved' | 'error'>('idle');
   const [saveError, setSaveError] = useState('');
   const canEditScoreSheets = Boolean(token);
+
+  const openPdf = () => {
+    const base = baseFromPathname(window.location.pathname);
+    let url = '';
+    if (token) {
+      url = `${window.location.origin}${base}/pdf/${token}?print=1`;
+    } else if (encoded) {
+      url = `${window.location.origin}${base}/pdf/share?d=${encoded}&print=1`;
+    } else {
+      return;
+    }
+    window.open(url, '_blank');
+  };
+  const canPdf = Boolean(token || encoded);
 
   const handleSave = async () => {
     if (!token) return;
@@ -228,6 +242,18 @@ export default function ShareView({ data, token }: { data: FormData; token?: str
                 {cover.company || '所属法人 未入力'}　／　{cover.name || '氏名 未入力'}　／　グレード {cover.grade || '—'}
               </p>
             </div>
+            {canPdf && (
+              <div className="share-print-btn" style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+                <button
+                  type="button"
+                  onClick={openPdf}
+                  className="header-action"
+                  title="4 ページ PDF（表紙／会社+部署／個人／グレード+ギャランティ+昇格+ボーナス）を新規タブで開き印刷ダイアログを起動します"
+                >
+                  📄 PDF で保存
+                </button>
+              </div>
+            )}
           </div>
         </header>
 

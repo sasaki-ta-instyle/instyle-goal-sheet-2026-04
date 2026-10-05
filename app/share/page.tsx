@@ -26,7 +26,7 @@ function ShareInner() {
   if (!data) {
     return <ShareError message="URL が途中で切れている可能性があります。送信元から再度コピーし直してもらってください。" />;
   }
-  return <ShareView data={data} />;
+  return <ShareView data={data} encoded={encoded} />;
 }
 
 export default function SharePage() {

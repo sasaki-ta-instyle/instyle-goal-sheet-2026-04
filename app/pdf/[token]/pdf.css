@@ -1,0 +1,452 @@
+/* PDF 出力専用（4 ページ / 1366×900 landscape / ig-slidemaker 準拠）
+   画面表示 / 印刷ダイアログ共通のページ寸法とレイアウトを定義する。 */
+
+@page {
+  size: 1366px 900px;
+  margin: 0;
+}
+
+.pdf-doc {
+  background: var(--color-bg);
+  min-height: 100vh;
+}
+
+/* 印刷時の注意書き（画面のみ） */
+.pdf-hint {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(212, 119, 44, 0.14);
+  border-bottom: 1px solid rgba(212, 119, 44, 0.28);
+  color: var(--color-text);
+  padding: 10px 20px;
+  font-size: 0.75rem;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.pdf-hint button {
+  background: var(--color-text);
+  color: var(--color-text-inv);
+  border: none;
+  padding: 6px 16px;
+  font-size: 0.75rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ページ本体 */
+.pdf-page {
+  width: 1366px;
+  height: 900px;
+  padding: 60px 68px;
+  margin: 20px auto;
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg);
+  color: var(--color-text);
+  page-break-after: always;
+  break-after: page;
+  box-shadow: 0 6px 24px rgba(53, 54, 45, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+.pdf-page:last-child {
+  page-break-after: auto;
+  break-after: auto;
+}
+
+/* 表紙 (P1) */
+.pdf-cover {
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.pdf-cover-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.pdf-cover-scene::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 72% 65% at 8% 6%, rgba(196,193,176,.58) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 55% at 94% 10%, rgba(230,226,215,.65) 0%, transparent 52%),
+    radial-gradient(ellipse 52% 68% at 78% 88%, rgba(196,193,176,.42) 0%, transparent 55%),
+    radial-gradient(ellipse 66% 46% at 18% 92%, rgba(230,226,215,.52) 0%, transparent 55%);
+}
+.pdf-cover-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.pdf-cover-logo {
+  height: 14px;
+  opacity: 0.55;
+  margin-bottom: 12px;
+}
+.pdf-cover-title {
+  font-family: var(--font-display);
+  font-size: 2.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--color-text);
+}
+.pdf-cover-period {
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+}
+.pdf-cover-meta {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 12px 32px;
+  font-size: 1rem;
+  padding: 32px 40px;
+  background: rgba(243, 241, 238, 0.55);
+  border: 1px solid var(--glass-border-w);
+  border-radius: var(--r);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+.pdf-cover-meta dt {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: right;
+  align-self: center;
+}
+.pdf-cover-meta dd {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* 見出し共通 */
+.pdf-page-title {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.pdf-page-lede {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-bottom: 20px;
+}
+
+/* 2 カラム / 4 象限グリッド */
+.pdf-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  flex: 1;
+  min-height: 0;
+}
+.pdf-grid-quad {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+}
+
+/* カード */
+.pdf-card {
+  background: rgba(243, 241, 238, 0.60);
+  border: 1px solid var(--glass-border-w);
+  border-radius: var(--r);
+  padding: 18px 22px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.pdf-card-heading {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+.pdf-card-body {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  overflow: hidden;
+}
+.pdf-card-body dl {
+  display: grid;
+  grid-template-columns: minmax(88px, auto) 1fr;
+  gap: 4px 12px;
+}
+.pdf-card-body dt {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+.pdf-card-body dd {
+  color: var(--color-text);
+}
+
+/* データテーブル (KPI 等) */
+.pdf-mini-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+}
+.pdf-mini-table th,
+.pdf-mini-table td {
+  padding: 4px 8px;
+  text-align: left;
+  border-bottom: 1px solid rgba(196, 193, 176, 0.42);
+}
+.pdf-mini-table th {
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.pdf-mini-table .num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* SMART / 個人目標行 */
+.pdf-smart-row {
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.50);
+  border-radius: var(--r-sm);
+  margin-bottom: 8px;
+}
+.pdf-smart-row:last-child {
+  margin-bottom: 0;
+}
+.pdf-smart-row-title {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+  letter-spacing: 0.04em;
+}
+.pdf-smart-fields {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 4px 8px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.pdf-smart-fields .letter {
+  font-weight: 700;
+  color: var(--color-text);
+}
+.pdf-smart-fields .value {
+  color: var(--color-text);
+}
+
+/* 上長コメント */
+.pdf-supervisor {
+  background: rgba(123, 183, 133, 0.14);
+  border: 1px solid rgba(123, 183, 133, 0.32);
+}
+.pdf-supervisor.empty {
+  background: rgba(196, 193, 176, 0.22);
+  border-style: dashed;
+  color: var(--color-text-muted);
+}
+
+/* KPI ハイライト値 */
+.pdf-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 6px;
+}
+.pdf-stat-num {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text);
+}
+.pdf-stat-unit {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+.pdf-stat-note {
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+/* フッター */
+.pdf-page-footer {
+  position: absolute;
+  bottom: 24px;
+  left: 68px;
+  right: 68px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.04em;
+}
+
+/* BudouX 適用対象 */
+.pdf-doc h1,
+.pdf-doc h2,
+.pdf-doc h3,
+.pdf-doc p,
+.pdf-doc li,
+.pdf-doc dd,
+.pdf-doc td {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* 印刷時 */
+@media print {
+  html, body {
+    background: #fff !important;
+  }
+  .pdf-hint { display: none !important; }
+  .pdf-doc { background: #fff; }
+  .pdf-page {
+    margin: 0 !important;
+    box-shadow: none !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  a { text-decoration: none !important; color: inherit !important; }
+}
+
+/* 表紙に差し込む最終オーナー URL パネル（OwnerUrlLink.tsx） */
+.pdf-owner-url {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 24px;
+  background: rgba(255, 255, 255, 0.42);
+  border: 1px solid var(--glass-border-w);
+  border-radius: var(--r);
+  max-width: 540px;
+}
+.pdf-owner-url-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  color: var(--color-text-muted);
+}
+.pdf-owner-url-cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  background: var(--color-text);
+  color: var(--color-text-inv);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border-radius: 999px;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.pdf-owner-url-cta:hover {
+  opacity: 0.85;
+}
+.pdf-owner-url-text {
+  font-size: 0.6875rem;
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.72);
+  padding: 6px 10px;
+  border-radius: var(--r-sm);
+  word-break: break-all;
+  line-height: 1.5;
+  max-width: 100%;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  text-align: center;
+}
+.pdf-owner-url-copy {
+  background: transparent;
+  border: none;
+  color: var(--color-info);
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  font-size: 0.7rem;
+  font-family: inherit;
+}
+
+/* 印刷時：ボタン装飾は落として URL テキストが残るようにする */
+@media print {
+  .pdf-owner-url {
+    background: transparent;
+    border: 1px dashed rgba(53, 54, 45, 0.42);
+  }
+  .pdf-owner-url-cta {
+    background: transparent !important;
+    color: var(--color-text) !important;
+    padding: 0 !important;
+    font-weight: 600;
+  }
+  .pdf-owner-url-text {
+    background: transparent;
+    padding: 2px 0;
+  }
+  .pdf-owner-url-copy {
+    display: none;
+  }
+}
+
+/* 各ページ右上の URL ピル（OwnerUrlPill.tsx） */
+.pdf-page-url-pill {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  background: rgba(243, 241, 238, 0.72);
+  border: 1px solid var(--glass-border-w);
+  border-radius: 999px;
+  text-decoration: none;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 160ms, border-color 160ms;
+}
+.pdf-page-url-pill:hover {
+  background: rgba(243, 241, 238, 0.92);
+  border-color: rgba(53, 54, 45, 0.42);
+}
+
+/* 印刷時：枠は残しつつ背景を抜いて紙面を汚さない */
+@media print {
+  .pdf-page-url-pill {
+    background: transparent;
+    border: 1px dashed rgba(53, 54, 45, 0.42);
+    color: var(--color-text) !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}

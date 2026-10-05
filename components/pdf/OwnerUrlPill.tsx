@@ -1,0 +1,48 @@
+'use client';
+
+// 各ページ右上にドッキングさせる小さなリンクピル。表紙の OwnerUrlLink と同じ URL
+// を派生させるが、見た目はコンパクトに。印刷時は実リンクを損なわずに点線だけ落とす。
+
+import { useEffect, useState } from 'react';
+import { buildShortShareUrl, buildLongShareUrl } from '@/lib/share-codec';
+
+export default function OwnerUrlPill({
+  token,
+  encoded,
+  finalized,
+}: {
+  token?: string;
+  encoded?: string;
+  finalized?: boolean;
+}) {
+  const [url, setUrl] = useState('');
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const origin = window.location.origin;
+    const pathname = window.location.pathname;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (token) setUrl(buildShortShareUrl(origin, pathname, token));
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    else if (encoded) setUrl(buildLongShareUrl(origin, pathname, encoded));
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    else setUrl('');
+  }, [token, encoded]);
+
+  if (!url) return null;
+
+  const label = finalized ? '最終オーナー URL' : '共有URL';
+
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="pdf-page-url-pill"
+      title={url}
+    >
+      <span aria-hidden style={{ marginRight: 4 }}>📎</span>
+      {label}
+    </a>
+  );
+}
