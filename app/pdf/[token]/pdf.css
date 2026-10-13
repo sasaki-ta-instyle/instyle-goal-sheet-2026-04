@@ -165,6 +165,81 @@
   flex: 1;
   min-height: 0;
 }
+.pdf-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+}
+.pdf-grid-single {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+.pdf-grid-single > .pdf-card {
+  flex: 1;
+}
+
+/* P5 グレード期待項目 一覧テーブル */
+.pdf-card-grade {
+  overflow: hidden;
+}
+.pdf-card-grade .pdf-card-body {
+  overflow: hidden;
+}
+.pdf-grade-list {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+.pdf-grade-list thead th {
+  background: rgba(32, 33, 26, 0.06);
+  font-weight: 600;
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(32, 33, 26, 0.14);
+  white-space: nowrap;
+}
+.pdf-grade-list tbody td {
+  padding: 7px 10px;
+  border-bottom: 1px solid rgba(32, 33, 26, 0.08);
+  vertical-align: middle;
+}
+.pdf-grade-list tbody tr.selected {
+  background: rgba(32, 33, 26, 0.08);
+}
+.pdf-grade-list td.tier {
+  font-weight: 700;
+  font-size: 0.875rem;
+  background: rgba(32, 33, 26, 0.04);
+  text-align: center;
+  vertical-align: middle;
+}
+.pdf-grade-list td.tier-name {
+  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+  vertical-align: middle;
+}
+.pdf-grade-list td.grade-key {
+  text-align: center;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.pdf-grade-list td.salary {
+  text-align: right;
+  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+  font-feature-settings: "tnum";
+  white-space: nowrap;
+}
+.pdf-grade-list td.expectation {
+  line-height: 1.55;
+  color: var(--color-text);
+}
 
 /* カード */
 .pdf-card {

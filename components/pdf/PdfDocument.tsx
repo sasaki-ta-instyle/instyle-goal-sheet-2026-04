@@ -13,11 +13,13 @@ import {
 } from '@/lib/types';
 
 /*
- * 4 ページ PDF（1366×900 landscape）
- *   P1 表紙        cover
- *   P2 会社目標＋部署目標   company + dept
- *   P3 個人目標    personal (currentStatus / SMART / SL / 上長コメント)
- *   P4 グレード＋ギャランティ＋昇格＋ボーナス
+ * 6 ページ PDF（1366×900 landscape）
+ *   P1 表紙              cover
+ *   P2 会社目標          company
+ *   P3 部署目標          dept
+ *   P4 個人目標          personal (currentStatus / SMART / SL / 上長コメント)
+ *   P5 グレード期待項目  grade expectations（全 13 件を全文表示）
+ *   P6 ギャランティ＋昇格＋ボーナス
  * 2026 年 4-9 月期（上期）版は兼部シート（dept2）を扱わない。
  */
 
@@ -59,7 +61,7 @@ function CoverPage({ data, ownerUrlSlot, ownerUrlPill }: { data: FormData; owner
       </div>
       <div className="pdf-page-footer">
         <span>INSTYLE GROUP</span>
-        <span>P.1 / 4</span>
+        <span>P.1 / 6</span>
       </div>
     </section>
   );
@@ -159,20 +161,37 @@ function DeptGoalCard({ data, title }: { data: DeptGoalData; title: string }) {
   );
 }
 
-// P2 会社+部署
-function CompanyDeptPage({ data, ownerUrlPill }: { data: FormData; ownerUrlPill?: ReactNode }) {
+// P2 会社目標（単独）
+function CompanyPage({ data, ownerUrlPill }: { data: FormData; ownerUrlPill?: ReactNode }) {
   return (
     <section className="pdf-page">
       {ownerUrlPill}
-      <h2 className="pdf-page-title">01｜会社目標 &amp; 02｜部署目標</h2>
-      <p className="pdf-page-lede">会社の骨太と、そこにぶら下がる部署ミッション・KGI・KPI。</p>
-      <div className="pdf-grid-2">
+      <h2 className="pdf-page-title">01｜会社目標</h2>
+      <p className="pdf-page-lede">今期の会社としての骨太と戦略フォーカス。</p>
+      <div className="pdf-grid-single">
         <CompanyGoalCard data={data.company} title="会社目標" />
+      </div>
+      <div className="pdf-page-footer">
+        <span>{data.cover.name || '氏名未入力'} / {data.cover.company || '所属未入力'}</span>
+        <span>P.2 / 6</span>
+      </div>
+    </section>
+  );
+}
+
+// P3 部署目標（単独）
+function DeptPage({ data, ownerUrlPill }: { data: FormData; ownerUrlPill?: ReactNode }) {
+  return (
+    <section className="pdf-page">
+      {ownerUrlPill}
+      <h2 className="pdf-page-title">02｜部署目標</h2>
+      <p className="pdf-page-lede">会社骨太にぶら下がる部署ミッション・KGI・KPI。</p>
+      <div className="pdf-grid-single">
         <DeptGoalCard data={data.dept} title="部署目標" />
       </div>
       <div className="pdf-page-footer">
         <span>{data.cover.name || '氏名未入力'} / {data.cover.company || '所属未入力'}</span>
-        <span>P.2 / 4</span>
+        <span>P.3 / 6</span>
       </div>
     </section>
   );
@@ -252,13 +271,71 @@ function PersonalGoalPage({ data, ownerUrlPill }: { data: FormData; ownerUrlPill
       </div>
       <div className="pdf-page-footer">
         <span>{data.cover.name || '氏名未入力'} / {data.cover.company || '所属未入力'}</span>
-        <span>P.3 / 4</span>
+        <span>P.4 / 6</span>
       </div>
     </section>
   );
 }
 
-// P4 グレード + ギャランティ + 昇格 + ボーナス
+// P5 グレード期待項目（全 tier/grade を縦 1 枚テーブルで全文表示）
+const expectKey = (key: string): string => key.replace("'", '');
+
+function GradeExpectationsPage({ data, ownerUrlPill }: { data: FormData; ownerUrlPill?: ReactNode }) {
+  const selectedGrade = data.cover.grade;
+  const exp = data.gradeExpectations;
+  return (
+    <section className="pdf-page">
+      {ownerUrlPill}
+      <h2 className="pdf-page-title">05｜グレード期待項目</h2>
+      <p className="pdf-page-lede">各クラスに求める目安・行動基準（カバーで選択したグレードはハイライト）。</p>
+      <div className="pdf-grid-single">
+        <div className="pdf-card pdf-card-grade">
+          <div className="pdf-card-body" style={{ padding: 0 }}>
+            <table className="pdf-grade-list">
+              <thead>
+                <tr>
+                  <th style={{ width: 36 }}>Tier</th>
+                  <th style={{ width: 160 }}>Tier 名</th>
+                  <th style={{ width: 70, textAlign: 'center' }}>Grade</th>
+                  <th style={{ width: 110, textAlign: 'right' }}>月給</th>
+                  <th>期待項目・行動基準</th>
+                </tr>
+              </thead>
+              <tbody>
+                {GRADE_TABLE.flatMap(tier =>
+                  tier.grades.map((g, gIdx) => {
+                    const isSelected = g.key === selectedGrade;
+                    const eKey = expectKey(g.key);
+                    const value = (exp[eKey] ?? '').trim();
+                    return (
+                      <tr key={g.key} className={isSelected ? 'selected' : undefined}>
+                        {gIdx === 0 && (
+                          <td className="tier" rowSpan={tier.grades.length}>{tier.tier}</td>
+                        )}
+                        {gIdx === 0 && (
+                          <td className="tier-name" rowSpan={tier.grades.length}>{tier.tierName}</td>
+                        )}
+                        <td className="grade-key">{isSelected ? '● ' : ''}{g.key}</td>
+                        <td className="salary">{g.salary}</td>
+                        <td className="expectation">{value || '—'}</td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div className="pdf-page-footer">
+        <span>{data.cover.name || '氏名未入力'} / {data.cover.company || '所属未入力'}</span>
+        <span>P.5 / 6</span>
+      </div>
+    </section>
+  );
+}
+
+// P6 ギャランティ + 昇格 + ボーナス
 function GradeCard({ grade, expectations }: { grade: string; expectations: GradeExpectations }) {
   const salary = getMonthlySalaryByGrade((grade || '') as never);
   const annual = getAnnualSalaryByGrade((grade || '') as never);
@@ -406,21 +483,20 @@ function BonusCard({ data }: { data: BonusData }) {
   );
 }
 
-function GradeGuarantyPage({ data, ownerUrlPill }: { data: FormData; ownerUrlPill?: ReactNode }) {
+function GuarantyPage({ data, ownerUrlPill }: { data: FormData; ownerUrlPill?: ReactNode }) {
   return (
     <section className="pdf-page">
       {ownerUrlPill}
-      <h2 className="pdf-page-title">04〜07｜ギャランティ・グレード・昇格・ボーナス</h2>
-      <p className="pdf-page-lede">今期のポジションと対価の全体像。</p>
-      <div className="pdf-grid-quad">
-        <GradeCard grade={data.cover.grade} expectations={data.gradeExpectations} />
+      <h2 className="pdf-page-title">04｜ギャランティ / 06｜昇格 / 07｜ボーナス</h2>
+      <p className="pdf-page-lede">今期の対価の全体像（グレード詳細は P5 参照）。</p>
+      <div className="pdf-grid-3">
         <CommitmentCard commitment={data.personal.commitment} />
         <PromotionCard data={data.promotion} />
         <BonusCard data={data.bonus} />
       </div>
       <div className="pdf-page-footer">
         <span>{data.cover.name || '氏名未入力'} / {data.cover.company || '所属未入力'}</span>
-        <span>P.4 / 4</span>
+        <span>P.6 / 6</span>
       </div>
     </section>
   );
@@ -438,9 +514,11 @@ export default function PdfDocument({
   return (
     <div className="pdf-doc">
       <CoverPage data={data} ownerUrlSlot={ownerUrlSlot} ownerUrlPill={ownerUrlPill} />
-      <CompanyDeptPage data={data} ownerUrlPill={ownerUrlPill} />
+      <CompanyPage data={data} ownerUrlPill={ownerUrlPill} />
+      <DeptPage data={data} ownerUrlPill={ownerUrlPill} />
       <PersonalGoalPage data={data} ownerUrlPill={ownerUrlPill} />
-      <GradeGuarantyPage data={data} ownerUrlPill={ownerUrlPill} />
+      <GradeExpectationsPage data={data} ownerUrlPill={ownerUrlPill} />
+      <GuarantyPage data={data} ownerUrlPill={ownerUrlPill} />
     </div>
   );
 }
