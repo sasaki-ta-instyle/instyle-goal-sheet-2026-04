@@ -98,11 +98,9 @@ export default function PersonalGoalForm({ data, onChange }: Props) {
               <tr key={i}>
                 <td style={{ fontWeight: 500, fontSize: '.8125rem' }}>{row.label}</td>
                 <td>
-                  <textarea
-                    className="input"
-                    style={{ padding: '6px 10px', fontSize: '.8125rem', minHeight: 60 }}
+                  <TA
                     value={row.value}
-                    onChange={e => updateStatus(i, e.target.value)}
+                    onChange={v => updateStatus(i, v)}
                     placeholder="記入してください"
                   />
                 </td>

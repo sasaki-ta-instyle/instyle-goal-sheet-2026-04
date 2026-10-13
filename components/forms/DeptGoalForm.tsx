@@ -1,4 +1,5 @@
 'use client';
+import { useLayoutEffect, useRef } from 'react';
 import { DeptGoalData, DeptKpiNumRow, DeptKgiRow, DeptActionRow } from '@/lib/types';
 
 interface Props {
@@ -24,6 +25,36 @@ function TI({ value, onChange, placeholder, autoNumber, compact }: { value: stri
       style={{ padding: '6px 8px', fontSize: compact ? '.75rem' : '.8125rem' }}
       value={value}
       onChange={e => onChange(autoNumber ? autoComma(e.target.value) : e.target.value)}
+      placeholder={placeholder ?? '—'}
+    />
+  );
+}
+
+// 入力量に応じて縦方向に自動で伸びる textarea。文字が多くても見切れない。
+function TA({ value, onChange, placeholder, compact }: { value: string; onChange: (v: string) => void; placeholder?: string; compact?: boolean }) {
+  const ref = useRef<HTMLTextAreaElement | null>(null);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = `${el.scrollHeight}px`;
+  }, [value]);
+  return (
+    <textarea
+      ref={ref}
+      className="input"
+      rows={1}
+      style={{
+        padding: '6px 8px',
+        fontSize: compact ? '.75rem' : '.8125rem',
+        lineHeight: 1.5,
+        resize: 'none',
+        overflow: 'hidden',
+        width: '100%',
+        fontFamily: 'inherit',
+      }}
+      value={value}
+      onChange={e => onChange(e.target.value)}
       placeholder={placeholder ?? '—'}
     />
   );
@@ -184,7 +215,7 @@ export default function DeptGoalForm({ data, onChange, companyStrategicFocus }: 
                     </select>
                   </td>
                   <td>
-                    <TI
+                    <TA
                       value={data[item.key].label}
                       onChange={v => updateKpi(item.key, 'label', v)}
                       placeholder="指標名"
@@ -222,8 +253,8 @@ export default function DeptGoalForm({ data, onChange, companyStrategicFocus }: 
             {data.actions.map((row, i) => (
               <tr key={i}>
                 <td style={{ color: 'var(--color-text-muted)', fontWeight: 600, textAlign: 'center' }}>{i + 1}</td>
-                <td><TI value={row.content} onChange={v => updateAction(i, 'content', v)} placeholder="施策の内容" /></td>
-                <td><TI value={row.expectedEffect} onChange={v => updateAction(i, 'expectedEffect', v)} placeholder="期待する効果" /></td>
+                <td><TA value={row.content} onChange={v => updateAction(i, 'content', v)} placeholder="施策の内容" /></td>
+                <td><TA value={row.expectedEffect} onChange={v => updateAction(i, 'expectedEffect', v)} placeholder="期待する効果" /></td>
                 <td><TI value={row.deadline} onChange={v => updateAction(i, 'deadline', v)} placeholder="〇〇月末" /></td>
               </tr>
             ))}
