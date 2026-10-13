@@ -261,14 +261,6 @@ export default function ShareView({ data, token, encoded }: { data: FormData; to
               <div className="share-print-btn" style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
                 <button
                   type="button"
-                  onClick={openPdf}
-                  className="header-action"
-                  title="7 ページ PDF を新規タブで開き印刷ダイアログを起動します"
-                >
-                  📄 PDF で保存
-                </button>
-                <button
-                  type="button"
                   onClick={() => void exportPptx(editable)}
                   className="header-action"
                   title="PowerPoint 形式で書き出します。長文はスライドを編集して調整できます"
