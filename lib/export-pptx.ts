@@ -85,9 +85,9 @@ function addCompanySlide(pres: PptxGenJS, data: FormData) {
   });
 }
 
-function addDeptSlide(pres: PptxGenJS, data: DeptGoalData, title: string) {
+function addDeptCoreSlide(pres: PptxGenJS, data: DeptGoalData, title: string) {
   const s = pres.addSlide();
-  addSlideTitle(s, title, '会社骨太にぶら下がる部署ミッション・KGI・KPI・施策。');
+  addSlideTitle(s, title, '部署ミッション・KGI・KPI。');
 
   s.addText([
     { text: 'ミッション\n', options: { bold: true, fontSize: 11, color: COLOR_MUTED } },
@@ -131,61 +131,69 @@ function addDeptSlide(pres: PptxGenJS, data: DeptGoalData, title: string) {
     fontFace: FONT, fontSize: 10, color: COLOR_TEXT,
     border: { type: 'solid', pt: 0.5, color: 'D5D2C8' },
   });
+}
+
+function addDeptActionsSlide(pres: PptxGenJS, data: DeptGoalData, title: string) {
+  const s = pres.addSlide();
+  addSlideTitle(s, title, '今期の重点施策（KPI を達成するための行動）。');
 
   const actions = data.actions.filter(a => (a.content || '').trim() || (a.expectedEffect || '').trim());
   const actionText: PptxGenJS.TextProps[] = [];
-  actionText.push({ text: '施策\n', options: { bold: true, fontSize: 12, color: COLOR_MUTED } });
   if (actions.length === 0) {
-    actionText.push({ text: '（未入力）', options: { fontSize: 11, color: COLOR_MUTED } });
+    actionText.push({ text: '（未入力）', options: { fontSize: 14, color: COLOR_MUTED } });
   } else {
     actions.forEach((a, i) => {
-      actionText.push({ text: `${i + 1}. `, options: { bold: true, fontSize: 11, color: COLOR_ACCENT } });
-      actionText.push({ text: `${a.content || '—'}\n`, options: { fontSize: 11, color: COLOR_TEXT } });
-      actionText.push({ text: `   期待効果: ${a.expectedEffect || '—'}\n`, options: { fontSize: 10, color: COLOR_MUTED } });
-      actionText.push({ text: `   期限: ${a.deadline || '—'}\n`, options: { fontSize: 10, color: COLOR_MUTED } });
+      actionText.push({ text: `${i + 1}. `, options: { bold: true, fontSize: 13, color: COLOR_ACCENT } });
+      actionText.push({ text: `${a.content || '—'}\n`, options: { fontSize: 13, color: COLOR_TEXT } });
+      actionText.push({ text: `   期待効果: ${a.expectedEffect || '—'}\n`, options: { fontSize: 11, color: COLOR_MUTED } });
+      actionText.push({ text: `   期限: ${a.deadline || '—'}\n\n`, options: { fontSize: 11, color: COLOR_MUTED } });
     });
   }
   s.addText(actionText, {
-    x: 6.7, y: 4.5, w: 6.1, h: 2.6,
-    fontFace: FONT, valign: 'top', lineSpacingMultiple: 1.3,
+    x: 0.5, y: 1.3, w: 12.3, h: 5.8,
+    fontFace: FONT, valign: 'top', lineSpacingMultiple: 1.4,
   });
 }
 
-function addPersonalCurrentSmartSlide(pres: PptxGenJS, data: FormData) {
+function addPersonalCurrentSlide(pres: PptxGenJS, data: FormData) {
   const s = pres.addSlide();
   const p = data.personal;
-  addSlideTitle(s, '03｜個人目標 — 現在地 & SMART', '今の自分の位置と、今期の SMART 個人目標。');
+  addSlideTitle(s, '03｜個人目標 — 現在地の確認', '今の自分の位置の棚卸し。');
 
-  const currentText: PptxGenJS.TextProps[] = [];
-  currentText.push({ text: '現在地の確認\n\n', options: { bold: true, fontSize: 12, color: COLOR_MUTED } });
+  const items: PptxGenJS.TextProps[] = [];
   p.currentStatus.forEach(r => {
-    currentText.push({ text: `${r.label}\n`, options: { bold: true, fontSize: 11, color: COLOR_ACCENT } });
-    currentText.push({ text: `${r.value || '—'}\n\n`, options: { fontSize: 11, color: COLOR_TEXT } });
+    items.push({ text: `${r.label}\n`, options: { bold: true, fontSize: 13, color: COLOR_ACCENT } });
+    items.push({ text: `${r.value || '—'}\n\n`, options: { fontSize: 13, color: COLOR_TEXT } });
   });
-  s.addText(currentText, {
-    x: 0.5, y: 1.3, w: 5.2, h: 5.8,
-    fontFace: FONT, valign: 'top', lineSpacingMultiple: 1.4,
+  s.addText(items, {
+    x: 0.5, y: 1.3, w: 12.3, h: 5.8,
+    fontFace: FONT, valign: 'top', lineSpacingMultiple: 1.5,
   });
+}
 
-  const smartText: PptxGenJS.TextProps[] = [];
-  smartText.push({ text: 'SMART 個人目標\n\n', options: { bold: true, fontSize: 12, color: COLOR_MUTED } });
+function addPersonalSmartSlide(pres: PptxGenJS, data: FormData) {
+  const s = pres.addSlide();
+  const p = data.personal;
+  addSlideTitle(s, '03｜個人目標 — SMART 個人目標', '今期の SMART 目標。');
+
+  const items: PptxGenJS.TextProps[] = [];
   p.smartGoals.forEach((g, i) => {
-    smartText.push({ text: `目標 ${i + 1}`, options: { bold: true, fontSize: 12, color: COLOR_ACCENT } });
+    items.push({ text: `目標 ${i + 1}`, options: { bold: true, fontSize: 13, color: COLOR_ACCENT } });
     if (g.relatedKpi.trim()) {
-      smartText.push({ text: `  (${g.relatedKpi})`, options: { fontSize: 10, color: COLOR_MUTED } });
+      items.push({ text: `  (${g.relatedKpi})`, options: { fontSize: 11, color: COLOR_MUTED } });
     }
-    smartText.push({ text: '\n', options: {} });
+    items.push({ text: '\n', options: {} });
     (['s', 'm', 'a', 'r', 't'] as const).forEach(k => {
-      smartText.push({ text: `${k.toUpperCase()}: `, options: { bold: true, fontSize: 10, color: COLOR_MUTED } });
-      smartText.push({ text: `${g[k] || '—'}\n`, options: { fontSize: 10, color: COLOR_TEXT } });
+      items.push({ text: `${k.toUpperCase()}: `, options: { bold: true, fontSize: 11, color: COLOR_MUTED } });
+      items.push({ text: `${g[k] || '—'}\n`, options: { fontSize: 11, color: COLOR_TEXT } });
     });
     if (g.note.trim()) {
-      smartText.push({ text: `備考: ${g.note}\n`, options: { fontSize: 10, color: COLOR_MUTED, italic: true } });
+      items.push({ text: `備考: ${g.note}\n`, options: { fontSize: 10, color: COLOR_MUTED, italic: true } });
     }
-    smartText.push({ text: '\n', options: {} });
+    items.push({ text: '\n', options: {} });
   });
-  s.addText(smartText, {
-    x: 5.9, y: 1.3, w: 6.9, h: 5.8,
+  s.addText(items, {
+    x: 0.5, y: 1.3, w: 12.3, h: 5.8,
     fontFace: FONT, valign: 'top', lineSpacingMultiple: 1.3,
   });
 }
@@ -262,31 +270,35 @@ function addGradeExpectationsSlide(pres: PptxGenJS, data: FormData) {
 
   const rows: PptxGenJS.TableRow[] = [
     [
-      { text: 'Tier', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 9 } },
-      { text: 'Tier 名', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 9 } },
-      { text: 'Grade', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 9 } },
-      { text: '月給', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 9 } },
-      { text: '期待項目・行動基準', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 9 } },
+      { text: 'Tier', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 7 } },
+      { text: 'Tier 名', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 7 } },
+      { text: 'Grade', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 7 } },
+      { text: '期待項目・行動基準', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 7 } },
     ],
   ];
+  // ダッシュ (') 付きのサブグレードは除外、大文字・小文字キーのみ表示。月給列は非表示。
   GRADE_TABLE.forEach(tier => {
-    tier.grades.forEach(g => {
+    const grades = tier.grades.filter(g => !g.key.includes("'"));
+    grades.forEach((g, gIdx) => {
       const eKey = expectKey(g.key);
       const value = (exp[eKey] ?? '').trim();
       const sel = g.key === selected;
-      rows.push([
-        { text: tier.tier, options: { bold: sel, fill: sel ? { color: 'E8E6DF' } : undefined } },
-        { text: tier.tierName, options: { fill: sel ? { color: 'E8E6DF' } : undefined, color: COLOR_MUTED } },
-        { text: (sel ? '● ' : '') + g.key, options: { bold: sel, fill: sel ? { color: 'E8E6DF' } : undefined } },
-        { text: g.salary, options: { fill: sel ? { color: 'E8E6DF' } : undefined, align: 'right', color: COLOR_MUTED } },
-        { text: value || '—', options: { fill: sel ? { color: 'E8E6DF' } : undefined } },
-      ]);
+      const row: PptxGenJS.TableRow = [];
+      if (gIdx === 0) {
+        row.push({ text: tier.tier, options: { bold: true, rowspan: grades.length, fill: { color: 'F3F1EE' }, valign: 'middle', align: 'center' } });
+        row.push({ text: tier.tierName, options: { rowspan: grades.length, color: COLOR_MUTED, valign: 'middle' } });
+      }
+      row.push({ text: (sel ? '● ' : '') + g.key, options: { bold: sel, fill: sel ? { color: 'E8E6DF' } : undefined, align: 'center' } });
+      row.push({ text: value || '—', options: { fill: sel ? { color: 'E8E6DF' } : undefined } });
+      rows.push(row);
     });
   });
   s.addTable(rows, {
     x: 0.3, y: 1.3, w: 12.7,
-    colW: [0.6, 2.3, 0.9, 1.3, 7.6],
-    fontFace: FONT, fontSize: 9, color: COLOR_TEXT, valign: 'middle',
+    colW: [0.5, 2.2, 0.9, 9.1],
+    rowH: 0.33,
+    fontFace: FONT, fontSize: 7, color: COLOR_TEXT, valign: 'middle',
+    margin: 0.04,
     border: { type: 'solid', pt: 0.3, color: 'D5D2C8' },
   });
 }
@@ -346,8 +358,10 @@ export async function exportPptx(data: FormData): Promise<void> {
 
   addCoverSlide(pres, data);
   addCompanySlide(pres, data);
-  addDeptSlide(pres, data.dept, '02｜部署目標');
-  addPersonalCurrentSmartSlide(pres, data);
+  addDeptCoreSlide(pres, data.dept, '02｜部署目標 — ミッション & KGI & KPI');
+  addDeptActionsSlide(pres, data.dept, '02｜部署目標 — 施策');
+  addPersonalCurrentSlide(pres, data);
+  addPersonalSmartSlide(pres, data);
   addPersonalSlSupervisorSlide(pres, data);
   addCommitmentSlide(pres, data);
   addGradeExpectationsSlide(pres, data);
