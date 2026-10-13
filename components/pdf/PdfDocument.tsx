@@ -13,13 +13,14 @@ import {
 } from '@/lib/types';
 
 /*
- * 6 ページ PDF（1366×900 landscape）
+ * 7 ページ PDF（1366×900 landscape）
  *   P1 表紙              cover
  *   P2 会社目標          company
  *   P3 部署目標          dept
- *   P4 個人目標          personal (currentStatus / SMART / SL / 上長コメント)
- *   P5 グレード期待項目  grade expectations（全 13 件を全文表示）
- *   P6 ギャランティ＋昇格＋ボーナス
+ *   P4 個人目標①        現在地の確認 + SMART 個人目標
+ *   P5 個人目標②        SL 理論 + 上長からの一言
+ *   P6 グレード期待項目  grade expectations（全 13 件を全文表示）
+ *   P7 ギャランティ＋昇格＋ボーナス
  * 2026 年 4-9 月期（上期）版は兼部シート（dept2）を扱わない。
  */
 
@@ -61,7 +62,7 @@ function CoverPage({ data, ownerUrlSlot, ownerUrlPill }: { data: FormData; owner
       </div>
       <div className="pdf-page-footer">
         <span>INSTYLE GROUP</span>
-        <span>P.1 / 6</span>
+        <span>P.1 / 7</span>
       </div>
     </section>
   );
@@ -173,7 +174,7 @@ function CompanyPage({ data, ownerUrlPill }: { data: FormData; ownerUrlPill?: Re
       </div>
       <div className="pdf-page-footer">
         <span>{data.cover.name || '氏名未入力'} / {data.cover.company || '所属未入力'}</span>
-        <span>P.2 / 6</span>
+        <span>P.2 / 7</span>
       </div>
     </section>
   );
@@ -191,59 +192,35 @@ function DeptPage({ data, ownerUrlPill }: { data: FormData; ownerUrlPill?: React
       </div>
       <div className="pdf-page-footer">
         <span>{data.cover.name || '氏名未入力'} / {data.cover.company || '所属未入力'}</span>
-        <span>P.3 / 6</span>
+        <span>P.3 / 7</span>
       </div>
     </section>
   );
 }
 
-// P3 個人目標
-function PersonalGoalPage({ data, ownerUrlPill }: { data: FormData; ownerUrlPill?: ReactNode }) {
+// P4 個人目標① 現在地 + SMART
+function PersonalCurrentSmartPage({ data, ownerUrlPill }: { data: FormData; ownerUrlPill?: ReactNode }) {
   const p = data.personal;
-  const slLabel: Record<string, string> = {
-    S1: 'S1｜指示型', S2: 'S2｜コーチ型', S3: 'S3｜支援型', S4: 'S4｜委任型', '': '（未設定）',
-  };
   return (
     <section className="pdf-page">
       {ownerUrlPill}
-      <h2 className="pdf-page-title">03｜個人目標</h2>
-      <p className="pdf-page-lede">現在地 → SMART 目標 → SL 理論 → 上長からの一言。</p>
-      <div className="pdf-grid-2" style={{ gridTemplateColumns: '1fr 1fr' }}>
-        {/* Left: 現在地 + SL */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, minHeight: 0 }}>
-          <div className="pdf-card">
-            <p className="pdf-card-heading">現在地の確認</p>
-            <div className="pdf-card-body">
-              <dl>
-                {p.currentStatus.map((r, i) => (
-                  <div key={i} style={{ display: 'contents' }}>
-                    <dt>{r.label}</dt>
-                    <dd>{textOrDash(r.value)}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          </div>
-          <div className="pdf-card">
-            <p className="pdf-card-heading">SL 理論（今期の関わり方）</p>
-            <div className="pdf-card-body">
-              <p style={{ fontSize: '.875rem', fontWeight: 600, marginBottom: 6 }}>{slLabel[p.slLevel] ?? '（未設定）'}</p>
-              <p style={{ fontSize: '.75rem', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>
-                {textOrDash(p.slNote)}
-              </p>
-            </div>
-          </div>
-          <div className={`pdf-card pdf-supervisor${p.supervisorComment.trim() ? '' : ' empty'}`}>
-            <p className="pdf-card-heading">上長からの一言</p>
-            <div className="pdf-card-body">
-              <p style={{ fontSize: '.8125rem', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
-                {p.supervisorComment.trim() || '（未記入）'}
-              </p>
-            </div>
+      <h2 className="pdf-page-title">03｜個人目標 — 現在地 &amp; SMART</h2>
+      <p className="pdf-page-lede">今の自分の位置と、今期の SMART 個人目標。</p>
+      <div className="pdf-grid-2" style={{ gridTemplateColumns: '1fr 1.4fr' }}>
+        <div className="pdf-card">
+          <p className="pdf-card-heading">現在地の確認</p>
+          <div className="pdf-card-body">
+            <dl>
+              {p.currentStatus.map((r, i) => (
+                <div key={i} style={{ display: 'contents' }}>
+                  <dt>{r.label}</dt>
+                  <dd>{textOrDash(r.value)}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </div>
-        {/* Right: SMART */}
-        <div className="pdf-card" style={{ minHeight: 0 }}>
+        <div className="pdf-card">
           <p className="pdf-card-heading">SMART 個人目標</p>
           <div className="pdf-card-body" style={{ flex: 1, overflow: 'hidden' }}>
             {p.smartGoals.map((g, i) => (
@@ -271,7 +248,45 @@ function PersonalGoalPage({ data, ownerUrlPill }: { data: FormData; ownerUrlPill
       </div>
       <div className="pdf-page-footer">
         <span>{data.cover.name || '氏名未入力'} / {data.cover.company || '所属未入力'}</span>
-        <span>P.4 / 6</span>
+        <span>P.4 / 7</span>
+      </div>
+    </section>
+  );
+}
+
+// P5 個人目標② SL 理論 + 上長からの一言
+function PersonalSlSupervisorPage({ data, ownerUrlPill }: { data: FormData; ownerUrlPill?: ReactNode }) {
+  const p = data.personal;
+  const slLabel: Record<string, string> = {
+    S1: 'S1｜指示型', S2: 'S2｜コーチ型', S3: 'S3｜支援型', S4: 'S4｜委任型', '': '（未設定）',
+  };
+  return (
+    <section className="pdf-page">
+      {ownerUrlPill}
+      <h2 className="pdf-page-title">03｜個人目標 — SL 理論 &amp; 上長コメント</h2>
+      <p className="pdf-page-lede">期中の関わり方の握りと、上長からの一言。</p>
+      <div className="pdf-grid-2">
+        <div className="pdf-card">
+          <p className="pdf-card-heading">SL 理論（今期の関わり方）</p>
+          <div className="pdf-card-body">
+            <p style={{ fontSize: '1rem', fontWeight: 600, marginBottom: 8 }}>{slLabel[p.slLevel] ?? '（未設定）'}</p>
+            <p style={{ fontSize: '.8125rem', color: 'var(--color-text-muted)', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
+              {textOrDash(p.slNote)}
+            </p>
+          </div>
+        </div>
+        <div className={`pdf-card pdf-supervisor${p.supervisorComment.trim() ? '' : ' empty'}`}>
+          <p className="pdf-card-heading">上長からの一言</p>
+          <div className="pdf-card-body">
+            <p style={{ fontSize: '.875rem', lineHeight: 1.75, whiteSpace: 'pre-wrap' }}>
+              {p.supervisorComment.trim() || '（未記入）'}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="pdf-page-footer">
+        <span>{data.cover.name || '氏名未入力'} / {data.cover.company || '所属未入力'}</span>
+        <span>P.5 / 7</span>
       </div>
     </section>
   );
@@ -329,13 +344,13 @@ function GradeExpectationsPage({ data, ownerUrlPill }: { data: FormData; ownerUr
       </div>
       <div className="pdf-page-footer">
         <span>{data.cover.name || '氏名未入力'} / {data.cover.company || '所属未入力'}</span>
-        <span>P.5 / 6</span>
+        <span>P.6 / 7</span>
       </div>
     </section>
   );
 }
 
-// P6 ギャランティ + 昇格 + ボーナス
+// P7 ギャランティ + 昇格 + ボーナス
 function GradeCard({ grade, expectations }: { grade: string; expectations: GradeExpectations }) {
   const salary = getMonthlySalaryByGrade((grade || '') as never);
   const annual = getAnnualSalaryByGrade((grade || '') as never);
@@ -496,7 +511,7 @@ function GuarantyPage({ data, ownerUrlPill }: { data: FormData; ownerUrlPill?: R
       </div>
       <div className="pdf-page-footer">
         <span>{data.cover.name || '氏名未入力'} / {data.cover.company || '所属未入力'}</span>
-        <span>P.6 / 6</span>
+        <span>P.7 / 7</span>
       </div>
     </section>
   );
@@ -516,7 +531,8 @@ export default function PdfDocument({
       <CoverPage data={data} ownerUrlSlot={ownerUrlSlot} ownerUrlPill={ownerUrlPill} />
       <CompanyPage data={data} ownerUrlPill={ownerUrlPill} />
       <DeptPage data={data} ownerUrlPill={ownerUrlPill} />
-      <PersonalGoalPage data={data} ownerUrlPill={ownerUrlPill} />
+      <PersonalCurrentSmartPage data={data} ownerUrlPill={ownerUrlPill} />
+      <PersonalSlSupervisorPage data={data} ownerUrlPill={ownerUrlPill} />
       <GradeExpectationsPage data={data} ownerUrlPill={ownerUrlPill} />
       <GuarantyPage data={data} ownerUrlPill={ownerUrlPill} />
     </div>
