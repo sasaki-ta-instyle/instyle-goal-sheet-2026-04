@@ -187,9 +187,6 @@ function addPersonalSmartSlide(pres: PptxGenJS, data: FormData) {
       items.push({ text: `${k.toUpperCase()}: `, options: { bold: true, fontSize: 11, color: COLOR_MUTED } });
       items.push({ text: `${g[k] || '—'}\n`, options: { fontSize: 11, color: COLOR_TEXT } });
     });
-    if (g.note.trim()) {
-      items.push({ text: `備考: ${g.note}\n`, options: { fontSize: 10, color: COLOR_MUTED, italic: true } });
-    }
     items.push({ text: '\n', options: {} });
   });
   s.addText(items, {
