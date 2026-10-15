@@ -265,7 +265,8 @@ function addCommitmentSlide(pres: PptxGenJS, data: FormData) {
 
 function addGradeExpectationsSlide(pres: PptxGenJS, data: FormData) {
   const s = pres.addSlide();
-  const selected = data.cover.grade;
+  // ダッシュ付きグレードは表に出さないので、選択値のダッシュも剥がしてから比較する
+  const selected = (data.cover.grade ?? '').replace(/'/g, '');
   const exp = data.gradeExpectations;
   addSlideTitle(s, '05｜グレード期待項目', '各クラスに求める目安・行動基準。');
 
