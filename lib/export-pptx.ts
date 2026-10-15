@@ -187,6 +187,10 @@ function addPersonalSmartSlide(pres: PptxGenJS, data: FormData) {
       items.push({ text: `${k.toUpperCase()}: `, options: { bold: true, fontSize: 11, color: COLOR_MUTED } });
       items.push({ text: `${g[k] || '—'}\n`, options: { fontSize: 11, color: COLOR_TEXT } });
     });
+    if (g.note.trim()) {
+      items.push({ text: `備考: `, options: { bold: true, fontSize: 11, color: COLOR_MUTED } });
+      items.push({ text: `${g.note}\n`, options: { fontSize: 11, color: COLOR_TEXT } });
+    }
     items.push({ text: '\n', options: {} });
   });
   s.addText(items, {
