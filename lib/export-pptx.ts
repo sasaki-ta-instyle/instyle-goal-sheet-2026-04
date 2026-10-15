@@ -94,11 +94,11 @@ function addDeptCoreSlide(pres: PptxGenJS, data: DeptGoalData, title: string) {
     { text: (data.mission || '—') + '\n\n', options: { fontSize: 12, color: COLOR_TEXT } },
     { text: 'KGI 1 ミッション: ', options: { bold: true, fontSize: 11, color: COLOR_ACCENT } },
     { text: (data.kgi1.mission || '—') + '\n', options: { fontSize: 11, color: COLOR_TEXT } },
-    { text: 'KGI 1: ', options: { bold: true, fontSize: 11, color: COLOR_ACCENT } },
+    { text: 'KGI 1 バリュー: ', options: { bold: true, fontSize: 11, color: COLOR_ACCENT } },
     { text: (data.kgi1.kgi || '—') + '\n\n', options: { fontSize: 11, color: COLOR_TEXT } },
     { text: 'KGI 2 ミッション: ', options: { bold: true, fontSize: 11, color: COLOR_ACCENT } },
     { text: (data.kgi2.mission || '—') + '\n', options: { fontSize: 11, color: COLOR_TEXT } },
-    { text: 'KGI 2: ', options: { bold: true, fontSize: 11, color: COLOR_ACCENT } },
+    { text: 'KGI 2 バリュー: ', options: { bold: true, fontSize: 11, color: COLOR_ACCENT } },
     { text: data.kgi2.kgi || '—', options: { fontSize: 11, color: COLOR_TEXT } },
   ], {
     x: 0.5, y: 1.3, w: 6.0, h: 5.8,
