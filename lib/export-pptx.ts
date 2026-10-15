@@ -60,7 +60,7 @@ function addCompanySlide(pres: PptxGenJS, data: FormData) {
   addSlideTitle(s, '01｜会社目標', '今期の会社としての骨太と戦略フォーカス。');
   s.addText('戦略フォーカス', {
     x: 0.5, y: 1.3, w: 12.3, h: 0.3,
-    fontFace: FONT, fontSize: 12, bold: true, color: COLOR_MUTED,
+    fontFace: FONT, fontSize: 12, bold: true, color: COLOR_ACCENT,
   });
   s.addText(data.company.strategicFocus || '—', {
     x: 0.5, y: 1.65, w: 12.3, h: 1.6,
@@ -90,15 +90,15 @@ function addDeptCoreSlide(pres: PptxGenJS, data: DeptGoalData, title: string) {
   addSlideTitle(s, title, '部署ミッション・KGI・KPI。');
 
   s.addText([
-    { text: 'ミッション\n', options: { bold: true, fontSize: 11, color: COLOR_MUTED } },
+    { text: 'ミッション\n', options: { bold: true, fontSize: 11, color: COLOR_ACCENT } },
     { text: (data.mission || '—') + '\n\n', options: { fontSize: 12, color: COLOR_TEXT } },
-    { text: 'KGI 1 ミッション: ', options: { bold: true, fontSize: 11, color: COLOR_MUTED } },
+    { text: 'KGI 1 ミッション: ', options: { bold: true, fontSize: 11, color: COLOR_ACCENT } },
     { text: (data.kgi1.mission || '—') + '\n', options: { fontSize: 11, color: COLOR_TEXT } },
-    { text: 'KGI 1: ', options: { bold: true, fontSize: 11, color: COLOR_MUTED } },
+    { text: 'KGI 1: ', options: { bold: true, fontSize: 11, color: COLOR_ACCENT } },
     { text: (data.kgi1.kgi || '—') + '\n\n', options: { fontSize: 11, color: COLOR_TEXT } },
-    { text: 'KGI 2 ミッション: ', options: { bold: true, fontSize: 11, color: COLOR_MUTED } },
+    { text: 'KGI 2 ミッション: ', options: { bold: true, fontSize: 11, color: COLOR_ACCENT } },
     { text: (data.kgi2.mission || '—') + '\n', options: { fontSize: 11, color: COLOR_TEXT } },
-    { text: 'KGI 2: ', options: { bold: true, fontSize: 11, color: COLOR_MUTED } },
+    { text: 'KGI 2: ', options: { bold: true, fontSize: 11, color: COLOR_ACCENT } },
     { text: data.kgi2.kgi || '—', options: { fontSize: 11, color: COLOR_TEXT } },
   ], {
     x: 0.5, y: 1.3, w: 6.0, h: 5.8,
@@ -208,7 +208,7 @@ function addPersonalSlSupervisorSlide(pres: PptxGenJS, data: FormData) {
   addSlideTitle(s, '03｜個人目標 — SL 理論 & 上長コメント', '期中の関わり方の握りと、上長からの一言。');
 
   s.addText([
-    { text: 'SL 理論（今期の関わり方）\n\n', options: { bold: true, fontSize: 12, color: COLOR_MUTED } },
+    { text: 'SL 理論（今期の関わり方）\n\n', options: { bold: true, fontSize: 12, color: COLOR_ACCENT } },
     { text: (slLabel[p.slLevel] ?? '（未設定）') + '\n\n', options: { bold: true, fontSize: 18, color: COLOR_TEXT } },
     { text: p.slNote || '（メモ未記入）', options: { fontSize: 12, color: COLOR_MUTED } },
   ], {
@@ -271,10 +271,10 @@ function addGradeExpectationsSlide(pres: PptxGenJS, data: FormData) {
 
   const rows: PptxGenJS.TableRow[] = [
     [
-      { text: 'Tier', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 7 } },
-      { text: 'Tier 名', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 7 } },
-      { text: 'Grade', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 7 } },
-      { text: '期待項目・行動基準', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 7 } },
+      { text: 'Tier', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 10 } },
+      { text: 'Tier 名', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 10 } },
+      { text: 'Grade', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 10 } },
+      { text: '期待項目・行動基準', options: { bold: true, fill: { color: COLOR_HEADER_BG }, fontSize: 10 } },
     ],
   ];
   // ダッシュ (') 付きのサブグレードは除外、大文字・小文字キーのみ表示。月給列は非表示。
@@ -297,8 +297,8 @@ function addGradeExpectationsSlide(pres: PptxGenJS, data: FormData) {
   s.addTable(rows, {
     x: 0.3, y: 1.3, w: 12.7,
     colW: [0.5, 2.2, 0.9, 9.1],
-    rowH: 0.33,
-    fontFace: FONT, fontSize: 7, color: COLOR_TEXT, valign: 'middle',
+    rowH: 0.42,
+    fontFace: FONT, fontSize: 10, color: COLOR_TEXT, valign: 'middle',
     margin: 0.04,
     border: { type: 'solid', pt: 0.3, color: 'D5D2C8' },
   });
