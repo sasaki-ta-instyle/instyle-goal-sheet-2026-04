@@ -267,7 +267,7 @@ function addGradeExpectationsSlide(pres: PptxGenJS, data: FormData) {
   const s = pres.addSlide();
   const selected = data.cover.grade;
   const exp = data.gradeExpectations;
-  addSlideTitle(s, '05｜グレード期待項目', '各クラスに求める目安・行動基準（選択中は ● 印）。');
+  addSlideTitle(s, '05｜グレード期待項目', '各クラスに求める目安・行動基準。');
 
   const rows: PptxGenJS.TableRow[] = [
     [
@@ -289,8 +289,8 @@ function addGradeExpectationsSlide(pres: PptxGenJS, data: FormData) {
         row.push({ text: tier.tier, options: { bold: true, rowspan: grades.length, fill: { color: 'F3F1EE' }, valign: 'middle', align: 'center' } });
         row.push({ text: tier.tierName, options: { rowspan: grades.length, color: COLOR_MUTED, valign: 'middle' } });
       }
-      row.push({ text: (sel ? '● ' : '') + g.key, options: { bold: sel, fill: sel ? { color: 'E8E6DF' } : undefined, align: 'center' } });
-      row.push({ text: value || '—', options: { fill: sel ? { color: 'E8E6DF' } : undefined } });
+      row.push({ text: g.key, options: { bold: sel, fill: sel ? { color: 'E8E6DF' } : undefined, align: 'center' } });
+      row.push({ text: value || '—', options: { bold: sel, fill: sel ? { color: 'E8E6DF' } : undefined } });
       rows.push(row);
     });
   });
