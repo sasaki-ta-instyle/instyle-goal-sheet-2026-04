@@ -18,7 +18,7 @@ import {
  *   P2 会社目標          company
  *   P3 部署目標          dept
  *   P4 個人目標①        現在地の確認 + SMART 個人目標
- *   P5 個人目標②        SL 理論 + 上長からの一言
+ *   P5 個人目標②        SL 理論 + 上長から西村さんへ
  *   P6 グレード期待項目  grade expectations（全 13 件を全文表示）
  *   P7 ギャランティ＋昇格＋ボーナス
  * 2026 年 4-9 月期（上期）版は兼部シート（dept2）を扱わない。
@@ -254,7 +254,7 @@ function PersonalCurrentSmartPage({ data, ownerUrlPill }: { data: FormData; owne
   );
 }
 
-// P5 個人目標② SL 理論 + 上長からの一言
+// P5 個人目標② SL 理論 + 上長から西村さんへ
 function PersonalSlSupervisorPage({ data, ownerUrlPill }: { data: FormData; ownerUrlPill?: ReactNode }) {
   const p = data.personal;
   const slLabel: Record<string, string> = {
@@ -264,7 +264,7 @@ function PersonalSlSupervisorPage({ data, ownerUrlPill }: { data: FormData; owne
     <section className="pdf-page">
       {ownerUrlPill}
       <h2 className="pdf-page-title">03｜個人目標 — SL 理論 &amp; 上長コメント</h2>
-      <p className="pdf-page-lede">期中の関わり方の握りと、上長からの一言。</p>
+      <p className="pdf-page-lede">期中の関わり方の握りと、上長から西村さんへ。</p>
       <div className="pdf-grid-2">
         <div className="pdf-card">
           <p className="pdf-card-heading">SL 理論（今期の関わり方）</p>
@@ -276,7 +276,7 @@ function PersonalSlSupervisorPage({ data, ownerUrlPill }: { data: FormData; owne
           </div>
         </div>
         <div className={`pdf-card pdf-supervisor${p.supervisorComment.trim() ? '' : ' empty'}`}>
-          <p className="pdf-card-heading">上長からの一言</p>
+          <p className="pdf-card-heading">上長から西村さんへ</p>
           <div className="pdf-card-body">
             <p style={{ fontSize: '.875rem', lineHeight: 1.75, whiteSpace: 'pre-wrap' }}>
               {p.supervisorComment.trim() || '（未記入）'}

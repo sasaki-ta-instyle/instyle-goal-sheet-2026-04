@@ -316,7 +316,7 @@ export default function PersonalGoalForm({ data, onChange }: Props) {
         onChange={e => set('slNote', e.target.value)}
       />
 
-      <p style={{ fontSize: '.8125rem', fontWeight: 600, marginBottom: 6 }}>④ 上長からの一言</p>
+      <p style={{ fontSize: '.8125rem', fontWeight: 600, marginBottom: 6 }}>④ 上長から西村さんへ</p>
       <p style={{ fontSize: '.75rem', color: 'var(--color-text-muted)', marginBottom: 12, lineHeight: 1.7 }}>
         ここは本人ではなく上長が記入します。シートが書き終わったらシェア用URLを上長に送ってください。
       </p>

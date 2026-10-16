@@ -205,7 +205,7 @@ function addPersonalSlSupervisorSlide(pres: PptxGenJS, data: FormData) {
   const slLabel: Record<string, string> = {
     S1: 'S1｜指示型', S2: 'S2｜コーチ型', S3: 'S3｜支援型', S4: 'S4｜委任型', '': '（未設定）',
   };
-  addSlideTitle(s, '03｜個人目標 — SL 理論 & 上長コメント', '期中の関わり方の握りと、上長からの一言。');
+  addSlideTitle(s, '03｜個人目標 — SL 理論 & 上長コメント', '期中の関わり方の握りと、上長から西村さんへ。');
 
   s.addText([
     { text: 'SL 理論（今期の関わり方）\n\n', options: { bold: true, fontSize: 12, color: COLOR_ACCENT } },
@@ -217,7 +217,7 @@ function addPersonalSlSupervisorSlide(pres: PptxGenJS, data: FormData) {
   });
 
   s.addText([
-    { text: '上長からの一言\n\n', options: { bold: true, fontSize: 12, color: COLOR_MUTED } },
+    { text: '上長から西村さんへ\n\n', options: { bold: true, fontSize: 12, color: COLOR_MUTED } },
     { text: p.supervisorComment.trim() || '（未記入）', options: { fontSize: 14, color: COLOR_TEXT } },
   ], {
     x: 6.7, y: 1.3, w: 6.1, h: 5.8,
