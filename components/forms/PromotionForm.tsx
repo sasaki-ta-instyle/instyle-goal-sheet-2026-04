@@ -153,7 +153,7 @@ export default function PromotionForm({ data, onChange }: Props) {
             placeholder="https://..."
           />
           <p style={{ fontSize: '.7rem', color: 'var(--color-text-muted)', marginTop: 4 }}>
-            貼ったリンクは共有画面で別ウィンドウで開かれます（上長・西村さんが根拠を確認するため）。
+            貼ったリンクは共有画面で別ウィンドウで開かれます（西村さん確認用）。
           </p>
         </div>
       </div>
