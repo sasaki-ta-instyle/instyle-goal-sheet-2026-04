@@ -91,6 +91,9 @@ export interface PersonalGoalData {
 
 export interface PromotionData {
   valueScore: string;
+  /** 360 度評価結果シートへのリンク（本人入力）。
+   * 共有画面で ShareView の URL 自動リンク化が別ウィンドウで開く。 */
+  valueScoreUrl: string;
   tenurePoint: number;
   deptGrowthPoint: number;
   personalKpiPoint: number;
@@ -262,6 +265,7 @@ export function createDefaultFormData(): FormData {
     },
     promotion: {
       valueScore: '',
+      valueScoreUrl: '',
       tenurePoint: 0,
       deptGrowthPoint: 1,
       personalKpiPoint: 1,

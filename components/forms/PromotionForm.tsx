@@ -141,6 +141,21 @@ export default function PromotionForm({ data, onChange }: Props) {
             </div>
           )}
         </div>
+        <div style={{ marginTop: 16 }}>
+          <label className="form-label">360度評価結果のリンク（本人入力）</label>
+          <input
+            className="input"
+            type="url"
+            inputMode="url"
+            style={{ width: '100%', maxWidth: 560 }}
+            value={data.valueScoreUrl}
+            onChange={e => set('valueScoreUrl', e.target.value)}
+            placeholder="https://..."
+          />
+          <p style={{ fontSize: '.7rem', color: 'var(--color-text-muted)', marginTop: 4 }}>
+            貼ったリンクは共有画面で別ウィンドウで開かれます（上長・西村さんが根拠を確認するため）。
+          </p>
+        </div>
       </div>
 
       {/* ②〜⑦ 評価項目 */}
